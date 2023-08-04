@@ -22,8 +22,11 @@ export const tokensDark = {
     300: "#7a7f9d",
     400: "#4d547d",
     500: "#21295c",
-    600: "#191F45", // manually adjusted
-    700: "#141937",
+    600: "#6675ff",
+    
+    // 600: "#191F45", // manually adjusted
+    700: "#4d5eff",
+    // 700: "#141937", //original
     800: "#0d1025",
     900: "#070812",
   },
@@ -32,7 +35,7 @@ export const tokensDark = {
     50: "#f0f0f0", // manually adjusted
     100: "#fff6e0",
     200: "#ffedc2",
-    300: "#ffe3a3",
+    300: "#fff", //active tab
     400: "#ffda85",
     500: "#ffd166",
     600: "#cca752",
@@ -82,7 +85,7 @@ export const themeSettings = (mode) => {
             },
             background: {
               default: tokensDark.primary[600],
-              alt: tokensDark.primary[500],
+              alt: tokensDark.primary[700],
             },
           }
         : {
