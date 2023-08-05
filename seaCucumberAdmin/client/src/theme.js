@@ -3,8 +3,8 @@ export const tokensDark = {
   grey: {
     0: "#ffffff", // manually adjusted
     10: "#f6f6f6", // manually adjusted
-    50: "#f0f0f0", // manually adjusted
-    100: "#e0e0e0",
+    50: "#f0f0f0", // manually adjusted lie main boxes
+    100: "#e0e0e0", //lite main
     200: "#c2c2c2",
     300: "#a3a3a3",
     400: "#858585",
@@ -25,7 +25,7 @@ export const tokensDark = {
     600: "#6675ff",
     
     // 600: "#191F45", // manually adjusted
-    700: "#4d5eff",
+    700: "#3347ff",
     // 700: "#141937", //original
     800: "#0d1025",
     900: "#070812",
@@ -35,12 +35,12 @@ export const tokensDark = {
     50: "#f0f0f0", // manually adjusted
     100: "#fff6e0",
     200: "#ffedc2",
-    300: "#fff", //active tab
-    400: "#ffda85",
-    500: "#ffd166",
-    600: "#cca752",
-    700: "#997d3d",
-    800: "#665429",
+    300: "#ffff", //active tab
+    400: "#b3d9ff",//pie chart lite
+    500: "#b3d9ff", //pie chart dark
+    600: "#6675ff",//pie chart lite
+    700: "#3347ff", //report tab
+    800: "#3347ff", //Dashboard
     900: "#332a14",
   },
 };
@@ -73,7 +73,7 @@ export const themeSettings = (mode) => {
             primary: {
               ...tokensDark.primary,
               main: tokensDark.primary[400],
-              light: tokensDark.primary[400],
+              light: tokensDark.primary[0],
             },
             secondary: {
               ...tokensDark.secondary,
@@ -98,14 +98,14 @@ export const themeSettings = (mode) => {
             secondary: {
               ...tokensLight.secondary,
               main: tokensDark.secondary[600],
-              light: tokensDark.secondary[700],
+              light: tokensDark.secondary[700], //light report tab
             },
             neutral: {
               ...tokensLight.grey,
               main: tokensDark.grey[500],
             },
             background: {
-              default: tokensDark.grey[0],
+              default: tokensDark.grey[100],
               alt: tokensDark.grey[50],
             },
           }),
