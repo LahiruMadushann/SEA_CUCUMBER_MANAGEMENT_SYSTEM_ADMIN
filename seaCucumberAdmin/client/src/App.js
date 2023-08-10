@@ -17,6 +17,7 @@ import Breakdown from "scenes/breakdown";
 import Admin from "scenes/admin";
 import Performance from "scenes/performance";
 import LoginPage from "scenes/login";
+import ManagementUsers from "scenes/aFSection/managementUsers";
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
@@ -31,6 +32,7 @@ function App() {
               <Route path="/" element={<LoginPage />} />
               <Route element={<Layout />}>
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/managementUsers" element={<ManagementUsers />} />
               <Route path="/products" element={<Products />} />
               <Route path="/customers" element={<Customers />} />
               <Route path="/transactions" element={<Transactions />} />

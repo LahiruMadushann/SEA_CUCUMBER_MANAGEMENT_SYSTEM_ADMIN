@@ -1,60 +1,33 @@
+import React, { useState ,useContext} from "react";
+import { Box, useTheme } from "@mui/material";
+import { useSelector } from "react-redux";
+import { useGetUserQuery } from "state/api";
+import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
-import { useContext, useState } from "react";
 import { UserContext } from "../../UserContext";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import Login from "components/Login";
 
 
-const LoginPage = ({user}) =>{
-  const { pathname } = useLocation();
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-  const [redirect, setRedirect] = useState(false);
-  const { setUser } = useContext(UserContext);
 
-  async function handleLoginSubmit(e) {
-    e.preventDefault();
-    try {
-      const { data } = await axios.post("/", { user, password });
-      // console.log(setUser(data))
-      setUser(data);
-      alert("Login successful");
-      setRedirect(true);
-    } catch (e) {
-      alert("Login failed");
-    }
-  }
+const LoginPage = () =>{
+  const userId = useSelector((state) => state.global.userId);
+  const { data } = useGetUserQuery(userId);
 
-  if (redirect) {
-    return <Navigate to={"/dashboard"} />;
-  }
+  // console.log("data",data);
+  // const { data, isLoading } = useGetAdminsQuery();
+  // // console.log("data", data);
+  // console.log(user._id)
 
   return (
-    <div sx={{marginTop:"1rem",display: "flex",alignItems: "center",justifyContent: "space-around"}} className="container">
-      <div >
-        <h1 >Login</h1>
-        <form onSubmit={handleLoginSubmit}>
-          <input
-            type="text"
-            placeholder="Username"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
-          />
+    
+    <Box m="1.5rem 2.5rem">
+      <Login 
+        user={data || {}} 
+      />
 
-          <input
-            type="password"
-            placeholder="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
 
-          <button >Login</button>
-          <div >
-            Don't have an account yet?{" "}
-            <Link to={"/register"}>Register now</Link>
-          </div>
-        </form>
-      </div>
-    </div>
+    </Box>
   );
 }
 export default LoginPage;

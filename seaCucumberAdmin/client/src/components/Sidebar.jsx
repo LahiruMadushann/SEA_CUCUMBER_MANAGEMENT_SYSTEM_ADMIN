@@ -28,6 +28,11 @@ import {
   TrendingUpOutlined,
   PieChartOutlined,
 } from "@mui/icons-material";
+import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
+import WaterDamageOutlinedIcon from '@mui/icons-material/WaterDamageOutlined';
+import KayakingOutlinedIcon from '@mui/icons-material/KayakingOutlined';
+import SlowMotionVideoOutlinedIcon from '@mui/icons-material/SlowMotionVideoOutlined';
+import ConnectingAirportsOutlinedIcon from '@mui/icons-material/ConnectingAirportsOutlined';
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FlexBetween from "./FlexBetween";
@@ -38,6 +43,102 @@ const navItems = [
     text: "Dashboard",
     icon: <HomeOutlined />,
   },
+//---------------
+{
+  text: "Aquaculture Farms Section",
+  icon: null,
+},
+{
+  text: "ManagementUsers",
+  icon: <ManageAccountsOutlinedIcon />,
+},
+{
+  text: "Farms",
+  icon: <WaterDamageOutlinedIcon />,
+},
+{
+  text: "Farmers",
+  icon: <KayakingOutlinedIcon />,
+},
+
+
+
+//---------------
+//---------------
+{
+  text: "Fisheries Section",
+  icon: null,
+},
+{
+  text: "Management Users",
+  icon: <ManageAccountsOutlinedIcon />,
+},
+{
+  text: "Fishermens",
+  icon: <KayakingOutlinedIcon />,
+},
+{
+  text: "Fish Processors",
+  icon: <SlowMotionVideoOutlinedIcon />,
+},
+
+
+
+//---------------
+
+//---------------
+{
+  text: "Section",
+  icon: null,
+},
+{
+  text: "Exporters",
+  icon: <ConnectingAirportsOutlinedIcon />,
+},
+
+//---------------
+//---------------
+{
+  text: "Aquaculture Farms Section Data",
+  icon: null,
+},
+{
+  text: "Management Users",
+  icon: <ManageAccountsOutlinedIcon />,
+},
+{
+  text: "Farms",
+  icon: <WaterDamageOutlinedIcon />,
+},
+{
+  text: "Farmers",
+  icon: <KayakingOutlinedIcon />,
+},
+
+
+
+//---------------
+//---------------
+{
+  text: "Fisheries Data",
+  icon: null,
+},
+{
+  text: "Management Users",
+  icon: <ManageAccountsOutlinedIcon />,
+},
+{
+  text: "Fishermens",
+  icon: <KayakingOutlinedIcon />,
+},
+{
+  text: "FishProcessors",
+  icon: <ReceiptLongOutlined />,
+},
+
+
+
+//---------------
   {
     text: "Client Facing",
     icon: null,
@@ -78,6 +179,28 @@ const navItems = [
     text: "Breakdown",
     icon: <PieChartOutlined />,
   },
+//---------------
+{
+  text: "Other Actions",
+  icon: null,
+},
+{
+  text: "Register Management Users",
+  icon: <ShoppingCartOutlined />,
+},
+{
+  text: "Enter Knowledge Center Data",
+  icon: <Groups2Outlined />,
+},
+{
+  text: "Farmers",
+  icon: <ReceiptLongOutlined />,
+},
+
+
+
+//---------------
+
   {
     text: "Management",
     icon: null,
@@ -193,7 +316,7 @@ const Sidebar = ({
             </List>
           </Box>
 
-          <Box position="absolute"  bottom="-17rem" paddingBottom="25px">
+          <Box position="absolute"  bottom="-92rem" paddingBottom="25px">
             <Divider />
             <FlexBetween textTransform="none" gap="1rem" m="1.5rem 2rem 0 3rem">
               <Box
