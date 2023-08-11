@@ -4,7 +4,7 @@ import { useGetCustomersQuery } from "state/api";
 import Header from "components/Header";
 import { DataGrid } from "@mui/x-data-grid";
 
-const ManagementUsers = () => {
+const ManagementAquacultureUsers = () => {
   const theme = useTheme();
   const { data, isLoading } = useGetCustomersQuery();
   console.log("data", data);
@@ -92,4 +92,4 @@ const ManagementUsers = () => {
   );
 };
 
-export default ManagementUsers;
+export default ManagementAquacultureUsers;

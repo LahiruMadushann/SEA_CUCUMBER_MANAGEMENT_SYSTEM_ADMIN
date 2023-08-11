@@ -49,15 +49,15 @@ const navItems = [
   icon: null,
 },
 {
-  text: "ManagementUsers",
+  text: "Management Aquaculture Users",
   icon: <ManageAccountsOutlinedIcon />,
 },
 {
-  text: "Farms",
+  text: "Aquaculture Farms",
   icon: <WaterDamageOutlinedIcon />,
 },
 {
-  text: "Farmers",
+  text: "Aquaculture Farmers",
   icon: <KayakingOutlinedIcon />,
 },
 
@@ -70,7 +70,7 @@ const navItems = [
   icon: null,
 },
 {
-  text: "Management Users",
+  text: "Fisheries Management Users",
   icon: <ManageAccountsOutlinedIcon />,
 },
 {
@@ -103,15 +103,15 @@ const navItems = [
   icon: null,
 },
 {
-  text: "Management Users",
+  text: "Aquaculture Management",
   icon: <ManageAccountsOutlinedIcon />,
 },
 {
-  text: "Farms",
+  text: "Farms Data",
   icon: <WaterDamageOutlinedIcon />,
 },
 {
-  text: "Farmers",
+  text: "Farmers Data",
   icon: <KayakingOutlinedIcon />,
 },
 
@@ -124,15 +124,15 @@ const navItems = [
   icon: null,
 },
 {
-  text: "Management Users",
+  text: "Fisheries Management ",
   icon: <ManageAccountsOutlinedIcon />,
 },
 {
-  text: "Fishermens",
+  text: "Fishermens Data",
   icon: <KayakingOutlinedIcon />,
 },
 {
-  text: "FishProcessors",
+  text: "FishProcessors Data",
   icon: <ReceiptLongOutlined />,
 },
 
@@ -228,8 +228,14 @@ const Sidebar = ({
   const theme = useTheme();
 
   useEffect(() => {
-    setActive(pathname.substring(1));
+    let newPathname = pathname.replace(/ /g, '');
+    console.log("pathname",newPathname)
+    setActive(newPathname.substring(1));
   }, [pathname]);
+
+  // useEffect(() => {
+  //   setActive(pathname.substring(1));
+  // }, [pathname]);
 
   return (
     <Box component="nav">
@@ -267,21 +273,26 @@ const Sidebar = ({
             </Box>
             <List>
               {navItems.map(({ text, icon }) => {
+                // let newText = text.replace(/ /g, '');
+                // console.log(newText)
                 if (!icon) {
                   return (
                     <Typography key={text} sx={{ m: "2.25rem 0 1rem 3rem" }}>
+                      
                       {text}
                     </Typography>
                   );
                 }
                 const lcText = text.toLowerCase();
+                const lcTextNew = lcText.replace(/ /g, '');
+                console.log(lcTextNew)
 
                 return (
                   <ListItem key={text} disablePadding>
                     <ListItemButton
                       onClick={() => {
-                        navigate(`/${lcText}`);
-                        setActive(lcText);
+                        navigate(`/${lcTextNew}`);
+                        setActive(lcTextNew);
                       }}
                       sx={{
                         backgroundColor:
@@ -316,7 +327,7 @@ const Sidebar = ({
             </List>
           </Box>
 
-          <Box position="absolute"  bottom="-92rem" paddingBottom="25px">
+          <Box position="absolute"  bottom="-98rem" paddingBottom="25px">
             <Divider />
             <FlexBetween textTransform="none" gap="1rem" m="1.5rem 2rem 0 3rem">
               <Box
