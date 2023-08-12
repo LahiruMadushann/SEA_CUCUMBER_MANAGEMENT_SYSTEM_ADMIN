@@ -223,6 +223,24 @@ const Sidebar = ({
   isNonMobile,
 }) => {
   const { pathname } = useLocation();
+  
+  const filteredNavItems = navItems.filter(item => {
+    if (user.role === 'superadmin') {
+      // show all items for admin users
+      return true;
+    } else if (user.role === 'manager') {
+      // show only specific items for manager users
+      return ['Dashboard', 'Products', 'Geography', 'Sales'].includes(item.text);
+    } else if (user.role === 'farmer') {
+      // show only specific items for farmer users
+      return ['Dashboard', 'Aquaculture Farms Section', 'Aquaculture Farms', 'Aquaculture Farmers'].includes(item.text);
+    } else {
+      // show only specific items for other users
+      return ['Dashboard', 'Products'].includes(item.text);
+    }
+  });
+
+
   const [active, setActive] = useState("");
   const navigate = useNavigate();
   const theme = useTheme();
@@ -272,7 +290,9 @@ const Sidebar = ({
               </FlexBetween>
             </Box>
             <List>
-              {navItems.map(({ text, icon }) => {
+              {
+              
+              filteredNavItems.map(({ text, icon }) => {
                 // let newText = text.replace(/ /g, '');
                 // console.log(newText)
                 if (!icon) {

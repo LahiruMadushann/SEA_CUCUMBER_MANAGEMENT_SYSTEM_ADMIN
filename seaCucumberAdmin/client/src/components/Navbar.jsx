@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {Navigate } from "react-router-dom";
 import {
   LightModeOutlined,
   DarkModeOutlined,
@@ -32,6 +33,15 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
   const isOpen = Boolean(anchorEl);
   const handleClick = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
+  const [navigate, setNavigate] = useState(false);
+
+  const goToProfile = () => {
+    setNavigate(true);
+  }
+
+  if (navigate) {
+    return <Navigate to='/userProfile' />
+  }
 
   return (
     <AppBar
@@ -69,7 +79,7 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
               <LightModeOutlined sx={{ fontSize: "25px" }} />
             )}
           </IconButton>
-          <IconButton>
+          <IconButton onClick={goToProfile}>
             <SettingsOutlined sx={{ fontSize: "25px" }} />
           </IconButton>
 

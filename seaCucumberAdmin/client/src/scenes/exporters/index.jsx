@@ -4,7 +4,7 @@ import { useGetCustomersQuery } from "state/api";
 import Header from "components/Header";
 import { DataGrid } from "@mui/x-data-grid";
 
-const FishProcessors = () => {
+const Exporters = () => {
   const theme = useTheme();
   const { data, isLoading } = useGetCustomersQuery();
   console.log("data", data);
@@ -52,7 +52,7 @@ const FishProcessors = () => {
 
   return (
     <Box m="1.5rem 2.5rem">
-      <Header title="FISH PROCESSORS" subtitle="List of Fish Processors" />
+      <Header title="EXPORTERS" subtitle="List of Exporters" />
       <Box
         mt="40px"
         height="75vh"
@@ -92,4 +92,4 @@ const FishProcessors = () => {
   );
 };
 
-export default FishProcessors;
+export default Exporters;

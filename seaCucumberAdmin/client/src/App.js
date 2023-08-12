@@ -24,6 +24,14 @@ import AquacultureFarmers from "scenes/aFSection/aquacultureFarmers";
 import FisheriesManagementUsers from "scenes/fSection/fisheriesManagementUsers";
 import Fishermens from "scenes/fSection/fishermens";
 import FishProcessors from "scenes/fSection/fishProcessors";
+import Exporters from "scenes/exporters";
+import AquacultureManagement from "scenes/aFSData/aquacultureManagement";
+import FarmsData from "scenes/aFSData/farmsData";
+import FarmersData from "scenes/aFSData/farmersData";
+import FisheriesManagement from "scenes/fData/fisheriesManagement";
+import FishermensData from "scenes/fData/fishermensData";
+import FishProcessorsData from "scenes/fData/fishProcessorsData";
+import UserProfile from "scenes/userProfile";
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
@@ -36,6 +44,7 @@ function App() {
           <Routes>
             
               <Route path="/" element={<LoginPage />} />
+              <Route path="userProfile" element={<UserProfile/>} />
               <Route element={<Layout />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/managementAquacultureUsers" element={<ManagementAquacultureUsers />} />
@@ -44,6 +53,14 @@ function App() {
               <Route path="fisheriesManagementUsers" element={<FisheriesManagementUsers/>} />
               <Route path="fishermens" element={<Fishermens/>} />
               <Route path="fishProcessors" element={<FishProcessors/>} />
+              <Route path="aquacultureManagement" element={<AquacultureManagement/>} />
+              <Route path="farmsData" element={<FarmsData/>} />
+              <Route path="farmersData" element={<FarmersData/>} />
+              <Route path="fisheriesManagement" element={<FisheriesManagement/>} />
+              <Route path="fishermensData" element={<FishermensData/>} />
+              <Route path="fishProcessorsData" element={<FishProcessorsData/>} />
+              
+              <Route path="exporters" element={<Exporters/>} />
               <Route path="/products" element={<Products />} />
               <Route path="/customers" element={<Customers />} />
               <Route path="/transactions" element={<Transactions />} />
