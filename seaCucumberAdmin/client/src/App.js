@@ -19,6 +19,11 @@ import Performance from "scenes/performance";
 import LoginPage from "scenes/login";
 import ManagementUsers from "scenes/aFSection/managementUsers";
 import ManagementAquacultureUsers from "scenes/aFSection/managementUsers";
+import AquacultureFarms from "scenes/aFSection/aquacultureFarms";
+import AquacultureFarmers from "scenes/aFSection/aquacultureFarmers";
+import FisheriesManagementUsers from "scenes/fSection/fisheriesManagementUsers";
+import Fishermens from "scenes/fSection/fishermens";
+import FishProcessors from "scenes/fSection/fishProcessors";
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
@@ -34,6 +39,11 @@ function App() {
               <Route element={<Layout />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/managementAquacultureUsers" element={<ManagementAquacultureUsers />} />
+              <Route path="/aquacultureFarms" element={<AquacultureFarms />} />
+              <Route path="aquacultureFarmers" element={<AquacultureFarmers/>} />
+              <Route path="fisheriesManagementUsers" element={<FisheriesManagementUsers/>} />
+              <Route path="fishermens" element={<Fishermens/>} />
+              <Route path="fishProcessors" element={<FishProcessors/>} />
               <Route path="/products" element={<Products />} />
               <Route path="/customers" element={<Customers />} />
               <Route path="/transactions" element={<Transactions />} />

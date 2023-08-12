@@ -147,14 +147,14 @@ const navItems = [
     text: "Products",
     icon: <ShoppingCartOutlined />,
   },
-  {
-    text: "Customers",
-    icon: <Groups2Outlined />,
-  },
-  {
-    text: "Transactions",
-    icon: <ReceiptLongOutlined />,
-  },
+  // {
+  //   text: "Customers",
+  //   icon: <Groups2Outlined />,
+  // },
+  // {
+  //   text: "Transactions",
+  //   icon: <ReceiptLongOutlined />,
+  // },
   {
     text: "Geography",
     icon: <PublicOutlined />,
