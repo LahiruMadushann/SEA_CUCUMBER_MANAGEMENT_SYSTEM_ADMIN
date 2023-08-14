@@ -12,6 +12,26 @@ export const getUser = async (req, res) => {
   }
 };
 
+export const updateUser = async (req, res) => {
+  try {
+    // Get the user ID from the request params and update data from the request body
+    const { id } = req.params;
+    const updateData = req.body;
+    console.log("Update User ID:", id);
+    console.log("Update Data:", updateData);
+
+    // Find the user by ID and update their details
+    const updatedUser = await User.findByIdAndUpdate(id, updateData, { new: true });
+   
+
+    // Return the updated user
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+
 export const getDashboardStats = async (req, res) => {
   try {
     // hardcoded values

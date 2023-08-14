@@ -32,12 +32,15 @@ import FisheriesManagement from "scenes/fData/fisheriesManagement";
 import FishermensData from "scenes/fData/fishermensData";
 import FishProcessorsData from "scenes/fData/fishProcessorsData";
 import UserProfile from "scenes/userProfile";
+import Profile from "components/Profile";
+
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
   return (
     <div className="app">
+      
       <BrowserRouter>
         <ThemeProvider theme={theme}>
           <CssBaseline />
@@ -59,7 +62,7 @@ function App() {
               <Route path="fisheriesManagement" element={<FisheriesManagement/>} />
               <Route path="fishermensData" element={<FishermensData/>} />
               <Route path="fishProcessorsData" element={<FishProcessorsData/>} />
-              
+              <Route path="profile" element={<Profile/>} />
               <Route path="exporters" element={<Exporters/>} />
               <Route path="/products" element={<Products />} />
               <Route path="/customers" element={<Customers />} />
@@ -75,6 +78,7 @@ function App() {
           </Routes>
         </ThemeProvider>
       </BrowserRouter>
+      
     </div>
   );
 }

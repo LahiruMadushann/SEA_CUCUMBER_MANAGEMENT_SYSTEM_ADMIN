@@ -26,6 +26,27 @@ export const getProducts = async (req, res) => {
   }
 };
 
+//-------------
+
+export const updateUserDetail = async (req, res) => {
+  try {
+    // Get the user ID and update data from the request body
+    const { name, email,password,city, country,occupation,phoneNumber } = req.body;
+
+    // Find the user by ID and update their details
+    const updatedUser = await User.findByIdAndUpdate(name, email,password,city, country,occupation,phoneNumber, { new: true });
+
+    // Return the updated user
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+
+
+//-------------
+
 export const getCustomers = async (req, res) => {
   try {
     const customers = await User.find({ role: "user" }).select("-password");

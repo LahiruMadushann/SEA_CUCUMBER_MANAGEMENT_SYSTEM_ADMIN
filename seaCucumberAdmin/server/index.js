@@ -1,4 +1,6 @@
 import express from "express";
+// import { useContext } from 'react';
+// import {FormDataContext} from '../client/src/components/FormDataContext'
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
@@ -9,7 +11,7 @@ import clientRoutes from "./routes/client.js";
 import generalRoutes from "./routes/general.js";
 import managementRoutes from "./routes/management.js";
 import salesRoutes from "./routes/sales.js";
-
+// import UserProfile from "../client/src/components/UserProfile.jsx/index.js"
 // data imports
 import User from "./models/User.js";
 import Product from "./models/Product.js";
@@ -25,6 +27,7 @@ import {
   dataOverallStat,
   dataAffiliateStat,
 } from "./data/index.js";
+// const { UserData } = useContext(FormDataContext);
 
 /* CONFIGURATION */
 dotenv.config();
@@ -60,5 +63,6 @@ mongoose
     // ProductStat.insertMany(dataProductStat);
     // Transaction.insertMany(dataTransaction);
     // User.insertMany(dataUser);
+    // User.updateMany(UserData);
   })
   .catch((error) => console.log(`${error} did not connect`));
