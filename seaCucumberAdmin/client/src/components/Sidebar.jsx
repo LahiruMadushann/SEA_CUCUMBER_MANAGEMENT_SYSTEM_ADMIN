@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import {
   Box,
   Divider,
@@ -34,9 +35,12 @@ import KayakingOutlinedIcon from '@mui/icons-material/KayakingOutlined';
 import SlowMotionVideoOutlinedIcon from '@mui/icons-material/SlowMotionVideoOutlined';
 import ConnectingAirportsOutlinedIcon from '@mui/icons-material/ConnectingAirportsOutlined';
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate,useParams } from "react-router-dom";
 import FlexBetween from "./FlexBetween";
 import profileImage from "assets/profile.jpeg";
+import { useSelector } from "react-redux";
+import { useGetUserQuery } from "state/api";
+// import {useParams} from "react-router";
 
 const navItems = [
   {
@@ -139,26 +143,26 @@ const navItems = [
 
 
 //---------------
-  {
-    text: "Client Facing",
-    icon: null,
-  },
-  {
-    text: "Products",
-    icon: <ShoppingCartOutlined />,
-  },
   // {
-  //   text: "Customers",
-  //   icon: <Groups2Outlined />,
+  //   text: "Client Facing",
+  //   icon: null,
   // },
   // {
-  //   text: "Transactions",
-  //   icon: <ReceiptLongOutlined />,
+  //   text: "Products",
+  //   icon: <ShoppingCartOutlined />,
   // },
-  {
-    text: "Geography",
-    icon: <PublicOutlined />,
-  },
+  // // {
+  // //   text: "Customers",
+  // //   icon: <Groups2Outlined />,
+  // // },
+  // // {
+  // //   text: "Transactions",
+  // //   icon: <ReceiptLongOutlined />,
+  // // },
+  // {
+  //   text: "Geography",
+  //   icon: <PublicOutlined />,
+  // },
   {
     text: "Sales",
     icon: null,
@@ -222,8 +226,62 @@ const Sidebar = ({
   setIsSidebarOpen,
   isNonMobile,
 }) => {
-  const { pathname } = useLocation();
+  const {id} = useParams();
+  const userId = useSelector((state) => state.global.userId);
+  console.log("id eka pho",id)
+  const [detail,setDetail] = useState(null);
+  useEffect(()=>{
+      if (!id) {
+          return;
+      }
+      axios.get(`http://localhost:5001/user/${userId}`).then(response => {
+        setDetail(response.data);
+      });
+  }, [userId]);
+
+
+  // const {userId} = useParams();
+  console.log("hheeyve",detail);
   
+
+  // const { data, error, isLoading } = useGetUserQuery(userId);
+  // const { data: user } = useGetUserQuery(userName, {
+  //   skip: !userName,
+  //   refetchOnMountOrArgChange: true,
+  // });
+
+  // const { data: userNew } = useGetUserQuery(userId, {
+  //   skip: !userId,
+  //   refetchOnMountOrArgChange: true,
+  // });
+
+  // async function handleLoginSubmit(e) {
+  //   e.preventDefault();
+
+  //   if (user && user.password === password) {
+  //     alert("Login successful");
+  //     console.log(user)
+  //     setUser(user); // Set user context here if needed
+  //     navigate("/dashboard"); // Redirect to dashboard
+  //   } else {
+  //     alert("Login failed");
+  //     setUserName('');
+  //     setPassword('');
+  //   }
+  // }
+
+
+
+
+  console.log("User Id", userId);
+ 
+  // console.log("Error fetching data", error);
+  // console.log("Loading", isLoading);
+  
+  const { pathname } = useLocation();
+  const [userData, setUserData] = useState(null);
+  // setUserData(data);
+  // console.log("hyyy",userData.name)
   const filteredNavItems = navItems.filter(item => {
     if (user.role === 'superadmin') {
       // show all items for admin users

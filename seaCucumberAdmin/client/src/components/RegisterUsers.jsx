@@ -18,54 +18,90 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Profile from "./Profile";
 
-const UserProfile = ({ user = {} }) => {
+
+const RegisterUsers = () => {
     const navigate = useNavigate();
+    const { setUser } = useContext(UserContext);
 
-    console.log(user)
+
+   
 
 
     const { pathname } = useLocation();
-    const [userName, setUserName] = useState(user.name);
-    const [email, setEmail] = useState(user.email);
-    const [password, setPassword] = useState(user.password);
-    const [city, setCity] = useState(user.city);
-    const [country, setCountry] = useState(user.country);
-    const [occupation, setOccupation] = useState(user.occupation);
-    const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
+    const [userName, setUserName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [city, setCity] = useState("");
+    const [country, setCountry] = useState("");
+    const [occupation, setOccupation] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [role, setRole] = useState("");
     const [redirect, setRedirect] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    const { setUser } = useContext(UserContext);
+   
 
     const defaultTheme = createTheme();
     async function handleLoginSubmit(e) {
         e.preventDefault();
+
+        const newUser = {
+            name: userName,
+            email: email,
+            password: password,
+            city: city,
+            country: country,
+            occupation: occupation,
+            phoneNumber: phoneNumber,
+            role: role,
+        };
+
         try {
-            const updatedUserData = {
-                name: userName,
-                email: email,
-                password: password,
-                city: city,
-                country: country,
-                occupation: occupation,
-                phoneNumber: phoneNumber,
-            };
+            const response = await axios.post('http://localhost:5001/general/add', newUser);
 
-            // Update the base URL to match your backend server
-            const response = await axios.put(`http://localhost:5001/general/user/${user._id}`, updatedUserData);
-
-            if (response.status === 200) {
-                // Profile update successful
-                alert("Profile updated successfully!");
-                // You might want to update the user context or any other necessary state
+            if (response.status === 201) {
+                const addedUser = response.data; // Assuming the server returns the added user data with an ID
+            console.log('New user added:', addedUser);
+                // Profile add successful
+                alert("Profile added successfully!");
+                navigate('/'); // Redirect to login page after successful registration
             } else {
-                alert("Profile update failed. Please try again.");
+                alert("Profile add failed. Please try again.");
             }
         } catch (error) {
-            console.error("Error updating profile:", error);
-            alert("An error occurred while updating the profile. Please try again later.");
+            console.error("Error adding profile:", error);
+            alert("An error occurred while adding the profile. Please try again later.");
         }
+
+        
+
+
+        // try {
+        //     const addUser = {
+        // name: userName,
+        // email: email,
+        // password: password,
+        // city: city,
+        // country: country,
+        // occupation: occupation,
+        // phoneNumber: phoneNumber,
+        // role: role,
+        //     };
+
+        //     // Update the base URL to match your backend server
+        //     const response = await axios.post(`http://localhost:5001/general/user`, addUser);
+
+        //     if (response.status === 200) {
+        //         // Profile update successful
+        //         alert("Profile updated successfully!");
+        //         // You might want to update the user context or any other necessary state
+        //     } else {
+        //         alert("Profile update failed. Please try again.");
+        //     }
+        // } catch (error) {
+        //     console.error("Error updating profile:", error);
+        //     alert("An error occurred while updating the profile. Please try again later.");
+        // }
 
 
     }
@@ -100,7 +136,7 @@ const UserProfile = ({ user = {} }) => {
                             overflow: 'hidden', // Hide any overflow content
                         }}
                     >
-                        <img
+                        {/* <img
                             src={require('../assets/profile.jpeg')}
                             alt="Profile"
                             style={{
@@ -110,10 +146,10 @@ const UserProfile = ({ user = {} }) => {
                                 objectFit: 'cover', // Maintain aspect ratio and cover container
                                 borderRadius: '50px', // Add border radius to the image
                             }}
-                        />
-                        
-                           
-                     
+                        /> */}
+
+
+
 
                     </Box>
                 </Grid>
@@ -133,17 +169,17 @@ const UserProfile = ({ user = {} }) => {
                             variant="h5"
                             sx={{ marginTop: "1rem", marginBottom: "5rem", color: "#1976D2", fontWeight: "bold" }}
                         >
-                            User Profile
+                            REGISTER USER
                         </Typography>
                         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                             <Person2OutlinedIcon />
                         </Avatar>
                         <Typography component="h1" variant="h5">
-                            User
+                            
                         </Typography>
                         <Box component="form" noValidate onSubmit={handleLoginSubmit} sx={{ mt: 1 }}>
                             <Typography >
-                                User ID : {user._id}
+                                User ID 
                             </Typography>
 
                             <TextField
@@ -209,14 +245,14 @@ const UserProfile = ({ user = {} }) => {
                                 value={phoneNumber}
                                 onChange={(e) => setPhoneNumber(e.target.value)}
                             />
-                            {/* <TextField
+                            <TextField
                                 margin="normal"
                                 name="Role"
                                 label="Role"
                                 fullWidth
-                                value={user.role}
-                                onChange={(e) => setRo(e.target.value)}
-                            /> */}
+                                value={role}
+                                onChange={(e) => setRole(e.target.value)}
+                            />
 
 
                             <Button
@@ -240,4 +276,4 @@ const UserProfile = ({ user = {} }) => {
         //------------------
     );
 }
-export default UserProfile;
+export default RegisterUsers;

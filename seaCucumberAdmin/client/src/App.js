@@ -33,6 +33,8 @@ import FishermensData from "scenes/fData/fishermensData";
 import FishProcessorsData from "scenes/fData/fishProcessorsData";
 import UserProfile from "scenes/userProfile";
 import Profile from "components/Profile";
+import RegisterManagementUsers from "scenes/registerManagementUsers";
+import { UserContextProvider } from "UserContext";
 
 
 function App() {
@@ -42,12 +44,14 @@ function App() {
     <div className="app">
       
       <BrowserRouter>
+      <UserContextProvider>
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Routes>
             
               <Route path="/" element={<LoginPage />} />
               <Route path="userProfile" element={<UserProfile/>} />
+              <Route path="registerManagementUsers" element={<RegisterManagementUsers/>} />
               <Route element={<Layout />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/managementAquacultureUsers" element={<ManagementAquacultureUsers />} />
@@ -77,6 +81,7 @@ function App() {
             </Route>
           </Routes>
         </ThemeProvider>
+        </UserContextProvider>
       </BrowserRouter>
       
     </div>

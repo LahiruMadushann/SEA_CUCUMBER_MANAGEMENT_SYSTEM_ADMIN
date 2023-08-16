@@ -6,18 +6,16 @@ import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
 import { UserContext } from "../../UserContext";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
-import Login from "components/Login";
-import {useParams} from "react-router";
+import RegisterUsers from "components/RegisterUsers";
 
 
 
-const LoginPage = () =>{
-  const {userId} = useParams();
-  console.log("New ID :",userId)
-  // const userId = useSelector((state) => state.global.userId);
-  const { data } = useGetUserQuery(userId);
 
-  // console.log("dataHuptho",data);
+
+const RegisterManagementUsers = () =>{
+
+
+  // console.log("data",data);
   // const { data, isLoading } = useGetAdminsQuery();
   // // console.log("data", data);
   // console.log(user._id)
@@ -25,12 +23,11 @@ const LoginPage = () =>{
   return (
     
     <Box m="1.5rem 2.5rem">
-      <Login 
-        user={data || {}} 
-      />
+        <RegisterUsers  />
+      
 
 
     </Box>
   );
 }
-export default LoginPage;
+export default RegisterManagementUsers;

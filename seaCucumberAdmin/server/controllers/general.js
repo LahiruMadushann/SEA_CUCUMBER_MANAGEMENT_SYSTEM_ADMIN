@@ -5,12 +5,18 @@ import Transaction from "../models/Transaction.js";
 export const getUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await User.findById(id);
-    res.status(200).json(user);
+    // const user = await User.findById(id);
+    res.json(await User.findById(id));
+    // res.status(200).json(user);
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
 };
+
+// app.get('/places/:id', async (req,res) =>{
+//   const {id} = req.params;
+//   res.json(await Place.findById(id));
+// })
 
 export const updateUser = async (req, res) => {
   try {

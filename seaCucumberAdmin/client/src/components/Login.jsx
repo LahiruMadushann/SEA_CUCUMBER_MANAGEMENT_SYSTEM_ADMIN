@@ -1,5 +1,6 @@
 import axios from "axios";
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useGetAdminsQuery } from "state/api";
 import { useContext, useState } from "react";
 import { UserContext } from "../UserContext";
@@ -17,14 +18,17 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useParams } from "react-router";
+import { setUserId } from "../../src/state/index"; 
 
 const Login = ({ user }) => {
 
   console.log(user.name)
 
-
+  const { userId } = useParams();
+  const dispatch = useDispatch(); 
   const { pathname } = useLocation();
-  const [userName, setUserName] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -33,18 +37,30 @@ const Login = ({ user }) => {
   async function handleLoginSubmit(e) {
     e.preventDefault();
     try {
-      if (user.name === userName && user.password === password) {
-        alert("Login successful");
-        setRedirect(true);
-      } else {
-        alert("Login failed");
-        setUserName('');
-        setPassword('');
-      }
-
-    } catch (e) {
-      alert("Login failed");
+      const { data } = await axios.post('http://localhost:5001/login', { name, password });
+      setUser(data);
+      dispatch(setUserId(data._id)); // Dispatch the action to set userId
+      alert('Login successful');
+      setRedirect(true);
+    } catch (error) {
+      console.error("Login failed:", error.response.data); // Log the error response
+      alert('Login failed');
     }
+
+
+
+    // e.preventDefault();
+    //     try {
+       
+    //         const {data} = await axios.post('http://localhost:5001/login', { name, password });
+    //         setUser(data);
+    //         alert('Login successful');
+    //         setRedirect(true);
+
+    //     } catch (error) {
+    //       console.error("Login failed:", error.response.data); // Log the error response
+    //       alert('Login failed');
+    //     }
   }
 
   if (redirect) {
@@ -98,12 +114,12 @@ const Login = ({ user }) => {
                 margin="normal"
                 required
                 fullWidth
-                id="userName"
+                id="name"
                 label="User Name"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                name="userName"
-                autoComplete="userName"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                name="name"
+                autoComplete="name"
                 autoFocus
               />
               <TextField
