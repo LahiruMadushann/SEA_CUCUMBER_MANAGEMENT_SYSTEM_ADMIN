@@ -18,6 +18,12 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
+import {useTheme} from "@mui/material";
+
 import Profile from "./Profile";
 
 const UserProfile = ({ user = {} }) => {
@@ -37,35 +43,15 @@ const UserProfile = ({ user = {} }) => {
     const [redirect, setRedirect] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const { setUser } = useContext(UserContext);
+    const theme = useTheme();
 
     const defaultTheme = createTheme();
     async function handleLoginSubmit(e) {
         e.preventDefault();
-        try {
-            const updatedUserData = {
-                name: userName,
-                email: email,
-                password: password,
-                city: city,
-                country: country,
-                occupation: occupation,
-                phoneNumber: phoneNumber,
-            };
 
-            // Update the base URL to match your backend server
-            const response = await axios.put(`http://localhost:5001/general/user/${user._id}`, updatedUserData);
+        navigate('/userProfileEdit');
 
-            if (response.status === 200) {
-                // Profile update successful
-                alert("Profile updated successfully!");
-                // You might want to update the user context or any other necessary state
-            } else {
-                alert("Profile update failed. Please try again.");
-            }
-        } catch (error) {
-            console.error("Error updating profile:", error);
-            alert("An error occurred while updating the profile. Please try again later.");
-        }
+
 
 
     }
@@ -74,165 +60,134 @@ const UserProfile = ({ user = {} }) => {
     return (
 
         <ThemeProvider theme={defaultTheme} >
-
-            <Grid container component="main" sx={{ height: '100vh', marginTop: '6vh' }}>
-                <CssBaseline />
-                <Grid component={Paper}
-                    item
-                    xs={false}
-                    sm={4}
-                    md={7}
-                    sx={{
-                        display: 'flex', // Display the Box and Grid contents as flex
-                        alignItems: 'center', // Align items vertically
-                        justifyContent: 'center', // Center items horizontally
-                        boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.3)',
-                    }}
-                >
-                    <Box
+            <Box component="form" noValidate onSubmit={handleLoginSubmit}>
+                <Grid container component="main" sx={{ height: '100vh', marginTop: '6vh' }}>
+                    <CssBaseline />
+                    <Grid
+                        component={Paper}
+                        item
+                        xs={false}
+                        sm={4}
+                        md={7}
                         sx={{
-                            width: '100%',
-                            height: '100%', // Set height to fill the container
-                            display: 'flex', // Display the image container as flex
-                            justifyContent: 'center', // Center items horizontally
-                            alignItems: 'center', // Center items vertically
-                            borderRadius: '50px', // Add border radius to the image container
-                            overflow: 'hidden', // Hide any overflow content
-                        }}
-                    >
-                        <img
-                            src={require('../assets/profile.jpeg')}
-                            alt="Profile"
-                            style={{
-                                width: '40%',
-                                marginTop: '-72vh',
-                                height: '40%',
-                                objectFit: 'cover', // Maintain aspect ratio and cover container
-                                borderRadius: '50px', // Add border radius to the image
-                            }}
-                        />
-                        
-                           
-                     
-
-                    </Box>
-                </Grid>
-
-                <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-                    <Box
-                        sx={{
-                            my: 8,
-                            mx: 4,
                             display: 'flex',
-                            flexDirection: 'column',
                             alignItems: 'center',
+                            justifyContent: 'center',
+                            boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.3)',
+                            backgroundColor: theme.palette.secondary[600]
                         }}
                     >
-                        <Typography
-                            component="h1"
-                            variant="h5"
-                            sx={{ marginTop: "1rem", marginBottom: "5rem", color: "#1976D2", fontWeight: "bold" }}
+                        <Box
+                            sx={{
+                                width: '100%',
+                                height: '100%',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                borderRadius: '50px',
+                                overflow: 'hidden',
+                            }}
                         >
-                            User Profile
-                        </Typography>
-                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                            <Person2OutlinedIcon />
-                        </Avatar>
-                        <Typography component="h1" variant="h5">
-                            User
-                        </Typography>
-                        <Box component="form" noValidate onSubmit={handleLoginSubmit} sx={{ mt: 1 }}>
-                            <Typography >
-                                User ID : {user._id}
-                            </Typography>
-
-                            <TextField
-                                margin="normal"
-
-                                name="name"
-                                label="Name"
-                                fullWidth
-                                value={userName}
-                                onChange={(e) => setUserName(e.target.value)}
+                           
+                            <img
+                                src={require(`../../../server/uploads/${user.image}`)} // Use user's imagePath if available
+                                alt="Profile"
+                                style={{
+                                    marginLeft: '11vw',
+                                    width: '60%',
+                                    marginTop: '-22vh',
+                                    height: '60%',
+                                    objectFit: 'cover',
+                                    borderRadius: '50px',
+                                }}
                             />
-                            <TextField
-                                margin="normal"
-
-                                name="email"
-                                label="Email"
-                                fullWidth
-                                value={email}
-                                inputProps={{ autoComplete: "off" }}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                            <TextField
-                                margin="normal"
-
-                                name="password"
-                                label="Password"
-                                fullWidth
-                                type="password"
-                                value={password}
-                                inputProps={{ autoComplete: "off" }}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                            <TextField
-                                margin="normal"
-                                name="city"
-                                label="City"
-                                fullWidth
-                                value={city}
-                                onChange={(e) => setCity(e.target.value)}
-                            />
-
-                            <TextField
-                                margin="normal"
-                                name="country"
-                                label="Country"
-                                fullWidth
-                                value={country}
-                                onChange={(e) => setCountry(e.target.value)}
-                            />
-                            <TextField
-                                margin="normal"
-                                name="occupation"
-                                label="Occupation"
-                                fullWidth
-                                value={occupation}
-                                onChange={(e) => setOccupation(e.target.value)}
-                            />
-                            <TextField
-                                margin="normal"
-                                name="phone"
-                                label="Phone Number"
-                                fullWidth
-                                value={phoneNumber}
-                                onChange={(e) => setPhoneNumber(e.target.value)}
-                            />
-                            {/* <TextField
-                                margin="normal"
-                                name="Role"
-                                label="Role"
-                                fullWidth
-                                value={user.role}
-                                onChange={(e) => setRo(e.target.value)}
-                            /> */}
-
-
                             <Button
                                 type="submit"
                                 fullWidth
                                 variant="contained"
-                                sx={{ mt: 3, mb: 2, fontWeight: "bold" }}
+                                sx={{ mt: 63, mb: 2, ml: -38, mr: 38, px: 5, fontWeight: "bold" }}
                             >
-                                Save
+                                {console.log("Image Name",user.image)}
+                                EDIT USER
                             </Button>
-
-
                         </Box>
-                    </Box>
+                    </Grid>
+
+                    <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+                        <Box
+                            sx={{
+                                my: 8,
+                                mx: 4,
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <Typography
+                                component="h1"
+                                variant="h5"
+                                sx={{ marginTop: "1rem", marginBottom: "5rem", color: "#1976D2", fontWeight: "bold" }}
+                            >
+                                User Profile
+                            </Typography>
+                            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                                <Person2OutlinedIcon />
+                            </Avatar>
+                            <Typography component="h4" variant="h6">
+                                User Details
+                            </Typography>
+                            <Box sx={{ mt: 1 }}>
+                                <Table>
+                                    <TableBody>
+                                        <TableRow>
+                                            <TableCell>
+                                                <Typography sx={{ fontWeight: "bold" }}>User ID </Typography>
+                                            </TableCell>
+                                            <TableCell>{user._id}</TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell>
+                                                <Typography sx={{ fontWeight: "bold" }}>User Name </Typography>
+                                            </TableCell>
+                                            <TableCell>{user.name}</TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell>
+                                                <Typography sx={{ fontWeight: "bold" }}>Email </Typography>
+                                            </TableCell>
+                                            <TableCell>{user.email}</TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell>
+                                                <Typography sx={{ fontWeight: "bold" }}>City </Typography>
+                                            </TableCell>
+                                            <TableCell>{user.city}</TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell>
+                                                <Typography sx={{ fontWeight: "bold" }}>Country </Typography>
+                                            </TableCell>
+                                            <TableCell>{user.country}</TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell>
+                                                <Typography sx={{ fontWeight: "bold" }}>Occupation </Typography>
+                                            </TableCell>
+                                            <TableCell>{user.occupation}</TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell>
+                                                <Typography sx={{ fontWeight: "bold" }}>Phone Number </Typography>
+                                            </TableCell>
+                                            <TableCell>{user.phoneNumber}</TableCell>
+                                        </TableRow>
+                                    </TableBody>
+                                </Table>
+                            </Box>
+                        </Box>
+                    </Grid>
                 </Grid>
-            </Grid>
+            </Box>
         </ThemeProvider>
 
 

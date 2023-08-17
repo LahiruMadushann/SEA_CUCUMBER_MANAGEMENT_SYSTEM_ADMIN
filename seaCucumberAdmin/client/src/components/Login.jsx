@@ -36,16 +36,16 @@ const Login = ({ user }) => {
   const defaultTheme = createTheme();
   async function handleLoginSubmit(e) {
     e.preventDefault();
-    try {
-      const { data } = await axios.post('http://localhost:5001/login', { name, password });
-      setUser(data);
-      dispatch(setUserId(data._id)); // Dispatch the action to set userId
-      alert('Login successful');
-      setRedirect(true);
-    } catch (error) {
-      console.error("Login failed:", error.response.data); // Log the error response
-      alert('Login failed');
-    }
+  try {
+    const { data } = await axios.post('http://localhost:5001/login', { name, password });
+    setUser(data);
+    dispatch(setUserId(data._id)); // Dispatch the setUserId action
+    alert('Login successful');
+    setRedirect(true);
+  } catch (error) {
+    console.error("Login failed:", error.response.data);
+    alert('Login failed');
+  }
 
 
 

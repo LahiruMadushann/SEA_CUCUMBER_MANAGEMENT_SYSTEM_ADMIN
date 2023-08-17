@@ -24,6 +24,7 @@ const UserSchema = new mongoose.Schema(
     country: String,
     occupation: String,
     phoneNumber: String,
+    image: String,
     transactions: Array,
     role: {
       type: String,

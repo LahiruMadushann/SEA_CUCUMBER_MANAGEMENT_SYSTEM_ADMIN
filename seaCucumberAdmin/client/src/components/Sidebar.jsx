@@ -34,6 +34,7 @@ import WaterDamageOutlinedIcon from '@mui/icons-material/WaterDamageOutlined';
 import KayakingOutlinedIcon from '@mui/icons-material/KayakingOutlined';
 import SlowMotionVideoOutlinedIcon from '@mui/icons-material/SlowMotionVideoOutlined';
 import ConnectingAirportsOutlinedIcon from '@mui/icons-material/ConnectingAirportsOutlined';
+import PersonRemoveOutlinedIcon from '@mui/icons-material/PersonRemoveOutlined';
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate,useParams } from "react-router-dom";
 import FlexBetween from "./FlexBetween";
@@ -216,6 +217,10 @@ const navItems = [
   {
     text: "Performance",
     icon: <TrendingUpOutlined />,
+  },
+  {
+    text: "Remove Farmers",
+    icon: <PersonRemoveOutlinedIcon />,
   },
 ];
 
@@ -408,15 +413,16 @@ const Sidebar = ({
           <Box position="absolute"  bottom="-98rem" paddingBottom="25px">
             <Divider />
             <FlexBetween textTransform="none" gap="1rem" m="1.5rem 2rem 0 3rem">
+            {user.image && (
               <Box
                 component="img"
                 alt="profile"
-                src={profileImage}
+                src={require(`../../../server/uploads/${user.image}`)}
                 height="40px"
                 width="40px"
                 borderRadius="50%"
                 sx={{ objectFit: "cover" }}
-              />
+              />)}
               <Box textAlign="left">
                 <Typography
                   fontWeight="bold"

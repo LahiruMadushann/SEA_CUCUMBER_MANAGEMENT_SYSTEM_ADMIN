@@ -18,93 +18,56 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Profile from "./Profile";
+import {useTheme} from "@mui/material";
 
-
-const RegisterUsers = () => {
+const UserProfileEdit = ({ user = {} }) => {
     const navigate = useNavigate();
-    const { setUser } = useContext(UserContext);
-    const [image, setImage] = useState(null);
+    const theme = useTheme();
+
+    console.log(user)
+
+
     const { pathname } = useLocation();
-    const [userName, setUserName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [city, setCity] = useState("");
-    const [country, setCountry] = useState("");
-    const [occupation, setOccupation] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
-    const [role, setRole] = useState("");
+    const [userName, setUserName] = useState(user.name);
+    const [email, setEmail] = useState(user.email);
+    const [password, setPassword] = useState(user.password);
+    const [city, setCity] = useState(user.city);
+    const [country, setCountry] = useState(user.country);
+    const [occupation, setOccupation] = useState(user.occupation);
+    const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
     const [redirect, setRedirect] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const { setUser } = useContext(UserContext);
+
     const defaultTheme = createTheme();
-
-    const handleImageChange = (e) => {
-        setImage(e.target.files[0]);
-    };
-
     async function handleLoginSubmit(e) {
         e.preventDefault();
-        const formData = new FormData();
-
-        formData.append("name", userName);
-        formData.append("email", email);
-        formData.append("password", password);
-        formData.append("city", city);
-        formData.append("country", country);
-        formData.append("occupation", occupation);
-        formData.append("phoneNumber", phoneNumber);
-        formData.append("role", role);
-        formData.append("image", image);
-        
         try {
-            const response = await axios.post("http://localhost:5001/general/add", formData, {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-            });
-        
-            if (response.status === 201) {
-                console.log("User added successfully:", response.data);
-              const addedUser = response.data;
-              console.log("New user added:", addedUser);
-              alert("Profile added successfully!");
-              navigate("/");
+            const updatedUserData = {
+                name: userName,
+                email: email,
+                password: password,
+                city: city,
+                country: country,
+                occupation: occupation,
+                phoneNumber: phoneNumber,
+            };
+
+            // Update the base URL to match your backend server
+            const response = await axios.put(`http://localhost:5001/general/user/${user._id}`, updatedUserData);
+
+            if (response.status === 200) {
+                // Profile update successful
+                alert("Profile updated successfully!");
+                // You might want to update the user context or any other necessary state
             } else {
-              alert("Profile add failed. Please try again.");
+                alert("Profile update failed. Please try again.");
             }
-          } catch (error) {
-            console.error("Error adding profile:", error);
-            alert("An error occurred while adding the profile. Please try again later.");
-          }
-
-
-
-
-        // try {
-        //     const addUser = {
-        // name: userName,
-        // email: email,
-        // password: password,
-        // city: city,
-        // country: country,
-        // occupation: occupation,
-        // phoneNumber: phoneNumber,
-        // role: role,
-        //     };
-
-        //     // Update the base URL to match your backend server
-        //     const response = await axios.post(`http://localhost:5001/general/user`, addUser);
-
-        //     if (response.status === 200) {
-        //         // Profile update successful
-        //         alert("Profile updated successfully!");
-        //         // You might want to update the user context or any other necessary state
-        //     } else {
-        //         alert("Profile update failed. Please try again.");
-        //     }
-        // } catch (error) {
-        //     console.error("Error updating profile:", error);
-        //     alert("An error occurred while updating the profile. Please try again later.");
-        // }
+        } catch (error) {
+            console.error("Error updating profile:", error);
+            alert("An error occurred while updating the profile. Please try again later.");
+        }
 
 
     }
@@ -126,6 +89,7 @@ const RegisterUsers = () => {
                         alignItems: 'center', // Align items vertically
                         justifyContent: 'center', // Center items horizontally
                         boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.3)',
+                        backgroundColor: theme.palette.secondary[600]
                     }}
                 >
                     <Box
@@ -139,20 +103,28 @@ const RegisterUsers = () => {
                             overflow: 'hidden', // Hide any overflow content
                         }}
                     >
-                        {/* <img
-                            src={require('../assets/profile.jpeg')}
-                            alt="Profile"
-                            style={{
-                                width: '40%',
-                                marginTop: '-72vh',
-                                height: '40%',
-                                objectFit: 'cover', // Maintain aspect ratio and cover container
-                                borderRadius: '50px', // Add border radius to the image
-                            }}
-                        /> */}
-
-
-
+                        <img
+                                src={require(`../../../server/uploads/${user.image}`)}
+                                alt="Profile"
+                                style={{
+                                    marginLeft: '11vw',
+                                    width: '60%',
+                                    marginTop: '-22vh',
+                                    height: '60%',
+                                    objectFit: 'cover', // Maintain aspect ratio and cover container
+                                    borderRadius: '50px', // Add border radius to the image
+                                }}
+                            />
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 63, mb: 2, ml: -38, mr: 38,  fontWeight: "bold" }}
+                            >
+                                UPLOAD IMAGE
+                            </Button>
+                           
+                     
 
                     </Box>
                 </Grid>
@@ -172,18 +144,16 @@ const RegisterUsers = () => {
                             variant="h5"
                             sx={{ marginTop: "1rem", marginBottom: "5rem", color: "#1976D2", fontWeight: "bold" }}
                         >
-                            REGISTER USER
+                            User Profile
                         </Typography>
                         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                             <Person2OutlinedIcon />
                         </Avatar>
                         <Typography component="h1" variant="h5">
-
+                            User
                         </Typography>
                         <Box component="form" noValidate onSubmit={handleLoginSubmit} sx={{ mt: 1 }}>
-                            <Typography >
-                                User ID
-                            </Typography>
+                           
 
                             <TextField
                                 margin="normal"
@@ -248,22 +218,14 @@ const RegisterUsers = () => {
                                 value={phoneNumber}
                                 onChange={(e) => setPhoneNumber(e.target.value)}
                             />
-                            <TextField
+                            {/* <TextField
                                 margin="normal"
                                 name="Role"
                                 label="Role"
                                 fullWidth
-                                value={role}
-                                onChange={(e) => setRole(e.target.value)}
-                            />
-
-                            <TextField
-                                margin="normal"
-                                type="file"
-                                label="Profile Image"
-                                fullWidth
-                                onChange={handleImageChange}
-                            />
+                                value={user.role}
+                                onChange={(e) => setRo(e.target.value)}
+                            /> */}
 
 
                             <Button
@@ -272,7 +234,7 @@ const RegisterUsers = () => {
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2, fontWeight: "bold" }}
                             >
-                                Save
+                                UPDATE DETAIL
                             </Button>
 
 
@@ -287,4 +249,4 @@ const RegisterUsers = () => {
         //------------------
     );
 }
-export default RegisterUsers;
+export default UserProfileEdit;

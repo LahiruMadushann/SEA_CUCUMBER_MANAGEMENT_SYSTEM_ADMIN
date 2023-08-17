@@ -1,6 +1,11 @@
 import User from "../models/User.js";
 import OverallStat from "../models/OverallStat.js";
 import Transaction from "../models/Transaction.js";
+import path from "path";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export const getUser = async (req, res) => {
   try {
@@ -34,6 +39,54 @@ export const updateUser = async (req, res) => {
     res.status(200).json(updatedUser);
   } catch (error) {
     res.status(404).json({ message: error.message });
+  }
+};
+
+export const addUser = async (req, res) => {
+  try {
+    // Get the user data from the request body
+    const userData = req.body;
+
+    // Create a new user using the User model
+    const newUser = new User(userData);
+
+    // Handle image upload and store the image file
+    if (req.files && req.files.image) {
+      const image = req.files.image;
+      const imagePath = path.join(__dirname, '..', 'uploads', image.name);
+
+      await image.mv(imagePath);
+      const imageUrl= image.name
+      newUser.image = imageUrl; // Store the image path in the user object
+    }
+
+    // Save the new user to the database
+    const savedUser = await newUser.save();
+
+    // Return the newly added user
+    res.status(201).json(savedUser);
+  } catch (error) {
+    console.error("Error adding user:", error.message);
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export const deleteFarmer = async (req, res) => {
+  try {
+    // Get the user ID from the request params
+    const { id } = req.params;
+
+    // Find the user by ID and delete them
+    const deletedUser = await User.findByIdAndDelete(id);
+
+    if (!deletedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Return a success message
+    res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "An error occurred while deleting the user" });
   }
 };
 

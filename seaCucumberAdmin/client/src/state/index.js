@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
 
 const initialState = {
   mode: "dark",
-  userId: "63701cc1f03239b7f700000e",
+  userId: Cookies.get("userId") || null, // Retrieve userId from cookie if available
 };
 
 export const globalSlice = createSlice({
@@ -14,7 +15,8 @@ export const globalSlice = createSlice({
     },
     setUserId: (state, action) => {
       state.userId = action.payload;
-    }, // New action to set userId
+      Cookies.set("userId", action.payload); // Set userId in cookie
+    },
   },
 });
 

@@ -94,15 +94,16 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
                 gap: "1rem",
               }}
             >
+              {user.image && (
               <Box
                 component="img"
                 alt="profile"
-                src={profileImage}
+                src={require(`../../../server/uploads/${user.image}`)}
                 height="32px"
                 width="32px"
                 borderRadius="50%"
                 sx={{ objectFit: "cover" }}
-              />
+              />)}
               <Box textAlign="left">
                 <Typography
                   fontWeight="bold"

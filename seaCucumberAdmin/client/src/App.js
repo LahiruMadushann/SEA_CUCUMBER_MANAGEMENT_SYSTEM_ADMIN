@@ -35,6 +35,8 @@ import UserProfile from "scenes/userProfile";
 import Profile from "components/Profile";
 import RegisterManagementUsers from "scenes/registerManagementUsers";
 import { UserContextProvider } from "UserContext";
+import UserProfileEdit from "scenes/useProfileEdit";
+import RemoveFarmers from "scenes/removeFarmers";
 
 
 function App() {
@@ -51,6 +53,7 @@ function App() {
             
               <Route path="/" element={<LoginPage />} />
               <Route path="userProfile" element={<UserProfile/>} />
+              <Route path="userProfileEdit" element={<UserProfileEdit/>} />
               <Route path="registerManagementUsers" element={<RegisterManagementUsers/>} />
               <Route element={<Layout />}>
               <Route path="/dashboard" element={<Dashboard />} />
@@ -78,6 +81,7 @@ function App() {
               <Route path="/breakdown" element={<Breakdown />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/performance" element={<Performance />} />
+              <Route path="/removeFarmers" element={<RemoveFarmers />} />
             </Route>
           </Routes>
         </ThemeProvider>
