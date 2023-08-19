@@ -33,7 +33,7 @@ export const updateUser = async (req, res) => {
 
     // Find the user by ID and update their details
     const updatedUser = await User.findByIdAndUpdate(id, updateData, { new: true });
-   
+
 
     // Return the updated user
     res.status(200).json(updatedUser);
@@ -56,7 +56,7 @@ export const addUser = async (req, res) => {
       const imagePath = path.join(__dirname, '..', 'uploads', image.name);
 
       await image.mv(imagePath);
-      const imageUrl= image.name
+      const imageUrl = image.name
       newUser.image = imageUrl; // Store the image path in the user object
     }
 
@@ -68,6 +68,18 @@ export const addUser = async (req, res) => {
   } catch (error) {
     console.error("Error adding user:", error.message);
     res.status(400).json({ message: error.message });
+  }
+};
+
+
+export const getAllUsers = async (req, res) => {
+  try {
+    const roles = ["user", "admin"]; // Add the roles you want to retrieve here
+    const allUsers = await User.find({ role: { $in: roles } }).select("-password");
+
+    res.status(200).json(allUsers);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
   }
 };
 

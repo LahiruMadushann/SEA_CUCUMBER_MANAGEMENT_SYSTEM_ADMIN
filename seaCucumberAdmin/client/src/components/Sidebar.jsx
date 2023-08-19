@@ -222,6 +222,10 @@ const navItems = [
     text: "Remove Farmers",
     icon: <PersonRemoveOutlinedIcon />,
   },
+  {
+    text: "Remove Users",
+    icon: <PersonRemoveOutlinedIcon />,
+  },
 ];
 
 const Sidebar = ({
