@@ -20,66 +20,96 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Profile from "./Profile";
 import { useTheme } from "@mui/material";
+import Cookies from 'js-cookie';
+
 
 const UserProfileEdit = ({ user = {} }) => {
     const navigate = useNavigate();
     const theme = useTheme();
 
     const { pathname } = useLocation();
-    const [userName, setUserName] = useState(user.name);
-    const [email, setEmail] = useState(user.email);
-    const [password, setPassword] = useState(user.password);
-    const [city, setCity] = useState(user.city);
-    const [country, setCountry] = useState(user.country);
-    const [occupation, setOccupation] = useState(user.occupation);
-    const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
+    const [userName, setUserName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [city, setCity] = useState('');
+    const [country, setCountry] = useState('');
+    const [occupation, setOccupation] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
     const [image, setImage] = useState(null);
     const [redirect, setRedirect] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const { setUser } = useContext(UserContext);
 
     const defaultTheme = createTheme();
-    useEffect((e) => {
-         // Set the image state 
-        console.log("Image state updated:", image);
-    }, [image]); 
+
+    useEffect(() => {
+        const userDataFromCookies = {
+          name: Cookies.get("name") || user.name || "",
+          email: Cookies.get("email") || user.email || "",
+          password: Cookies.get("password") || user.password || "",
+          city: Cookies.get("city") || user.city || "",
+          country: Cookies.get("country") || user.country || "",
+          occupation: Cookies.get("occupation") || user.occupation || "",
+          phoneNumber: Cookies.get("phoneNumber") || user.phoneNumber || "",
+        };
+    
+        setUserName(userDataFromCookies.name);
+        setEmail(userDataFromCookies.email);
+        setPassword(userDataFromCookies.password);
+        setCity(userDataFromCookies.city);
+        setCountry(userDataFromCookies.country);
+        setOccupation(userDataFromCookies.occupation);
+        setPhoneNumber(userDataFromCookies.phoneNumber);
+      }, [user]);
+
+
+
+    // useEffect((e) => {
+    //      // Set the image state 
+    //     console.log("Image state updated:", image);
+    // }, [image]); 
     const handleImageChange = async (e) => {
+        const selectedImage = e.target.files[0];
+
         setImage(e.target.files[0]);
 
-    if (!image) {
-        return;
-    }
 
-    
-console.log("aluth Image ek",image)
-    try {
-
-        const updatedImage = {
-            image: image,
-        };
-
-        const formData = new FormData();
-        formData.append('image', image);
-        console.log("Form eke data",updatedImage)
-        
-        const response = await axios.put(`http://localhost:5001/general/user/${user._id}`, updatedImage, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-        });
-
-        if (response.status === 200) {
-            // Profile update successful
-            alert("Profile Picture Updated Successfully!");
-            // Reload the page
-            // window.location.reload();
-        } else {
-            alert("Profile Picture Update Failed. Please Try Again.");
+        if (!selectedImage) {
+            return;
         }
-    } catch (error) {
-        console.error("Error updating profile:", error);
-        alert("An error occurred while uploading the profile picture. Please try again later.");
-    }
+        console.log("File selected:", selectedImage);
+        setImage(selectedImage);
+
+        try {
+
+            // const updatedImage = {
+            //     image: image,
+            // };
+
+            const formData = new FormData();
+            formData.append('image', selectedImage);
+
+
+            const response = await axios.put(`http://localhost:5001/general/user/image/${user._id}`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+
+            if (response.status === 200) {
+                console.log("Image successfully updated in the database.");
+                // Profile update successful
+                alert("Profile Picture Updated Successfully!");
+                // Reload the page
+                window.location.reload();
+            } else {
+                console.log("Failed to update image in the database.");
+                alert("Profile Picture Update Failed. Please Try Again.");
+            }
+        } catch (error) {
+            console.error("Error updating profile:", error);
+            alert("An error occurred while uploading the profile picture. Please try again later.");
+        }
     };
 
     async function handleLoginSubmit(e) {
@@ -95,9 +125,13 @@ console.log("aluth Image ek",image)
                 phoneNumber: phoneNumber,
             };
 
+            Object.keys(updatedUserData).forEach((key) => {
+                Cookies.set(key, updatedUserData[key]);
+              });
+
             // Update the base URL to match your backend server
             const response = await axios.put(`http://localhost:5001/general/user/${user._id}`, updatedUserData);
-
+            
             if (response.status === 200) {
                 // Profile update successful
                 alert("Profile updated successfully!");
@@ -113,6 +147,13 @@ console.log("aluth Image ek",image)
 
     }
 
+
+   
+
+    // When user logs out or clears form data
+// Object.keys(formData).forEach(key => {
+//     Cookies.remove(key);
+// });
 
     return (
 
@@ -207,60 +248,67 @@ console.log("aluth Image ek",image)
                                     value={userName}
                                     onChange={(e) => setUserName(e.target.value)}
                                 />)}
-                            <TextField
-                                margin="normal"
+                            {user.image && (
+                                <TextField
+                                    margin="normal"
 
-                                name="email"
-                                label="Email"
-                                fullWidth
-                                value={email}
-                                inputProps={{ autoComplete: "off" }}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                            <TextField
-                                margin="normal"
+                                    name="email"
+                                    label="Email"
+                                    fullWidth
+                                    value={email}
+                                    inputProps={{ autoComplete: "off" }}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />)}
+                            {user.image && (
+                                <TextField
+                                    margin="normal"
 
-                                name="password"
-                                label="Password"
-                                fullWidth
-                                type="password"
-                                value={password}
-                                inputProps={{ autoComplete: "off" }}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                            <TextField
-                                margin="normal"
-                                name="city"
-                                label="City"
-                                fullWidth
-                                value={city}
-                                onChange={(e) => setCity(e.target.value)}
-                            />
+                                    name="password"
+                                    label="Password"
+                                    fullWidth
+                                    type="password"
+                                    value={password}
+                                    inputProps={{ autoComplete: "off" }}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />)}
+                            {user.image && (
+                                <TextField
+                                    margin="normal"
+                                    name="city"
+                                    label="City"
+                                    fullWidth
+                                    value={city}
+                                    onChange={(e) => setCity(e.target.value)}
+                                />)}
+                            {user.image && (
 
-                            <TextField
-                                margin="normal"
-                                name="country"
-                                label="Country"
-                                fullWidth
-                                value={country}
-                                onChange={(e) => setCountry(e.target.value)}
-                            />
-                            <TextField
-                                margin="normal"
-                                name="occupation"
-                                label="Occupation"
-                                fullWidth
-                                value={occupation}
-                                onChange={(e) => setOccupation(e.target.value)}
-                            />
-                            <TextField
-                                margin="normal"
-                                name="phone"
-                                label="Phone Number"
-                                fullWidth
-                                value={phoneNumber}
-                                onChange={(e) => setPhoneNumber(e.target.value)}
-                            />
+                                <TextField
+                                    margin="normal"
+                                    name="country"
+                                    label="Country"
+                                    fullWidth
+                                    value={country}
+                                    onChange={(e) => setCountry(e.target.value)}
+                                />)}
+
+                            {user.image && (
+                                <TextField
+                                    margin="normal"
+                                    name="occupation"
+                                    label="Occupation"
+                                    fullWidth
+                                    value={occupation}
+                                    onChange={(e) => setOccupation(e.target.value)}
+                                />)}
+                            {user.image && (
+                                <TextField
+                                    margin="normal"
+                                    name="phone"
+                                    label="Phone Number"
+                                    fullWidth
+                                    value={phoneNumber}
+                                    onChange={(e) => setPhoneNumber(e.target.value)}
+                                />)}
 
                             {/* <TextField
                                 margin="normal"

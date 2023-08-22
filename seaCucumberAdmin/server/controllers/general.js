@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+import fs from 'fs';
 
 export const getUser = async (req, res) => {
   try {
@@ -41,6 +42,57 @@ export const updateUser = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
+
+
+// ...
+
+export const updateUserImage = async (req, res) => {
+  try {
+    console.log("Update User Image Route Triggered");
+    // Get the user ID from the request params
+    const { id } = req.params;
+    const updateData = req.body;
+    const selectedImage = req.files.image;
+
+    // Find the user by ID
+    const user = await User.findById(id);
+    const previousImageName = user.image;
+
+     // Delete the previous image file from the uploads folder
+     if (previousImageName) {
+      const previousImagePath = path.join(__dirname, '..', 'uploads', previousImageName);
+      fs.unlinkSync(previousImagePath);
+    }
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Handle image upload and store the image file
+    if (req.files && req.files.image) {
+      const image = req.files.image;
+      const imagePath = path.join(__dirname, '..', 'uploads', image.name);
+
+      await image.mv(imagePath);
+      const imageUrl = image.name;
+
+      // Update the user's image property
+      user.image = imageUrl;
+      console.log("User before image update:", user);
+
+      // Save the updated user
+      const updatedUser = await user.save();
+
+      return res.status(200).json(updatedUser);
+    } else {
+      return res.status(400).json({ message: "No image provided" });
+    }
+  } catch (error) {
+    console.error("Error updating user image:", error);
+    res.status(500).json({ message: "An error occurred while updating the user image" });
+  }
+};
+
 
 export const addUser = async (req, res) => {
   try {
@@ -139,7 +191,7 @@ export const getDashboardStats = async (req, res) => {
   try {
     // hardcoded values
     const currentMonth = "November";
-    const currentYear = 2021;
+    const currentYear = 2023;
     const currentDay = "2021-11-15";
 
     /* Recent Transactions */

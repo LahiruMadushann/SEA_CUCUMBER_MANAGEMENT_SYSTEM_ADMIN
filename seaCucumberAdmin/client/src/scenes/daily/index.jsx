@@ -52,7 +52,7 @@ const Daily = () => {
       <Header title="DAILY SALES" subtitle="Chart of daily sales" />
       <Box height="75vh">
         <Box display="flex" justifyContent="flex-end">
-          <Box>
+          {/* <Box>
             <DatePicker
               selected={startDate}
               onChange={(date) => setStartDate(date)}
@@ -70,7 +70,7 @@ const Daily = () => {
               endDate={endDate}
               minDate={startDate}
             />
-          </Box>
+          </Box> */}
         </Box>
 
         {data ? (
@@ -109,7 +109,7 @@ const Daily = () => {
                 },
               },
             }}
-            colors={{ datum: "color" }}
+            // colors={{ datum: "color" }}
             margin={{ top: 50, right: 50, bottom: 70, left: 60 }}
             xScale={{ type: "point" }}
             yScale={{

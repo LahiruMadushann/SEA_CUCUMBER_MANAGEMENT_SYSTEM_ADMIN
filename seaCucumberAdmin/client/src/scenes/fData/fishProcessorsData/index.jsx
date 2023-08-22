@@ -78,7 +78,7 @@ const FishProcessorsData = () => {
                 },
               },
             }}
-            colors={{ datum: "color" }}
+            // colors={{ datum: "color" }}
             margin={{ top: 50, right: 50, bottom: 70, left: 60 }}
             xScale={{ type: "point" }}
             yScale={{
