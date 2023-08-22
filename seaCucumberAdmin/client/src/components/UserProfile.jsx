@@ -88,7 +88,7 @@ const UserProfile = ({ user = {} }) => {
                                 overflow: 'hidden',
                             }}
                         >
-                           
+                          {user.image && ( 
                             <img
                                 src={require(`../../../server/uploads/${user.image}`)} // Use user's imagePath if available
                                 alt="Profile"
@@ -101,6 +101,7 @@ const UserProfile = ({ user = {} }) => {
                                     borderRadius: '50px',
                                 }}
                             />
+                            )}
                             <Button
                                 type="submit"
                                 fullWidth

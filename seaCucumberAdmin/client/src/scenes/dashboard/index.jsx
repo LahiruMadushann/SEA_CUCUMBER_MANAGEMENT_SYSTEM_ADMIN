@@ -20,11 +20,52 @@ import BreakdownChart from "components/BreakdownChart";
 import OverviewChart from "components/OverviewChart";
 import { useGetDashboardQuery } from "state/api";
 import StatBox from "components/StatBox";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+
 
 const Dashboard = () => {
   const theme = useTheme();
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
   const { data, isLoading } = useGetDashboardQuery();
+
+  const handleDownloadReports = () => {
+    const element = document.getElementById("reports-container");
+
+    html2canvas(element).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a3"); // Portrait orientation, millimeters, A4 size
+
+      // Add current date and time
+      const currentDate = new Date();
+      const dateString = currentDate.toLocaleDateString();
+      const timeString = currentDate.toLocaleTimeString();
+      const dateTime = `${dateString} ${timeString}`;
+      pdf.setFontSize(10);
+      pdf.setTextColor(100, 100, 100); // Adjust font color
+      pdf.text(dateTime, 10, 10); // Adjust position (x, y)
+
+      pdf.setFontSize(18);
+      pdf.setTextColor(0, 0, 0); // Black font color
+      const companyName = "Seacucumber Report";
+      const subName = "Report Details"; // Your sub name
+      const textWidth = pdf.getStringUnitWidth(companyName) * 18 / pdf.internal.scaleFactor;
+      const x = (pdf.internal.pageSize.getWidth() - textWidth) / 2;
+      pdf.text(companyName, x, 25); // Centered horizontally, adjust y position as needed
+
+      // Subname below the company name
+      pdf.setFontSize(12);
+      pdf.setTextColor(100, 100, 100); // Adjust font color
+      const subNameWidth = pdf.getStringUnitWidth(subName) * 12 / pdf.internal.scaleFactor;
+      const subNameX = (pdf.internal.pageSize.getWidth() - subNameWidth) / 2;
+      pdf.text(subName, subNameX, 35); // Adjust y position as needed
+
+      // Add image content
+      pdf.addImage(imgData, 0, 45, 297, 400); // Adjust position and dimensions
+
+      pdf.save("seacucumber-report.pdf");
+    });
+  };
 
   const columns = [
     {
@@ -71,6 +112,7 @@ const Dashboard = () => {
               fontWeight: "bold",
               padding: "10px 20px",
             }}
+            onClick={handleDownloadReports}
           >
             <DownloadOutlined sx={{ mr: "10px" }} />
             Download Reports
@@ -79,6 +121,7 @@ const Dashboard = () => {
       </FlexBetween>
 
       <Box
+        id="reports-container"
         mt="20px"
         display="grid"
         gridTemplateColumns="repeat(12, 1fr)"

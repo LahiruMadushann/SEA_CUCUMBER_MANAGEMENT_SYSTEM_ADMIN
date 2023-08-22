@@ -13,7 +13,10 @@ export const api = createApi({
     "Admins",
     "Performance",
     "Dashboard",
-    "Remove"
+    "Remove",
+    "Fishermen",
+    "Farmer",
+    "Exporter",
   ],
   endpoints: (build) => ({
     getUser: build.query({
@@ -61,6 +64,18 @@ export const api = createApi({
       query: () => "general/allUsers",
       providesTags: ["Remove"],
     }),
+    getFishermens: build.query({
+      query: () => "general/fishermens",
+      providesTags: ["Fishermen"],
+    }),
+    getFarmers: build.query({
+      query: () => "general/farmers",
+      providesTags: ["Farmer"],
+    }),
+    getExporters: build.query({
+      query: () => "general/exporters",
+      providesTags: ["Exporter"],
+    }),
   }),
 });
 
@@ -75,4 +90,7 @@ export const {
   useGetUserPerformanceQuery,
   useGetDashboardQuery,
   useGetAllUsersQuery,
+  useGetFishermensQuery,
+  useGetFarmersQuery,
+  useGetExportersQuery,
 } = api;

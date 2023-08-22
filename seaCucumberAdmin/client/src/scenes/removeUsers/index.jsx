@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Button, useTheme, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { Box, Button, useTheme, FormControl, InputLabel, Select, MenuItem, TextField } from "@mui/material";
 import { useGetAllUsersQuery } from "state/api";
 import Header from "components/Header";
 import { DataGrid } from "@mui/x-data-grid";
@@ -10,6 +10,7 @@ const RemoveUsers = () => {
   const [data, setData] = useState([]); // Initialize data state
   const { data: allData, isLoading } = useGetAllUsersQuery();
   const [selectedRole, setSelectedRole] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
 
   React.useEffect(() => {
@@ -25,6 +26,16 @@ const RemoveUsers = () => {
     // or
     // setEditingUserId(rowId); // To manage the state of the user being edited
   };
+
+  const filteredData = selectedRole
+    ? data.filter(
+        (user) =>
+          user.role === selectedRole &&
+          user.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : data.filter((user) => user.name.toLowerCase().includes(searchQuery.toLowerCase()));
+
+
   const handleDeleteRow = async (rowId) => {
     const isConfirmed = window.confirm("Are You Sure You Want To Delete This User?");
     if (!isConfirmed) {
@@ -114,7 +125,7 @@ const RemoveUsers = () => {
     // },
     {
       field: "actions",
-      headerName: "Delete Farmer",
+      headerName: "Remove Users",
       flex: 0.5,
       renderCell: (params) => (
 
@@ -128,6 +139,7 @@ const RemoveUsers = () => {
         <Button
           variant="outlined"
           color="secondary"
+          sx={{fontWeight:"bold"}}
           onClick={() => handleDeleteRow(params.row._id)}
         >
           Delete
@@ -142,7 +154,7 @@ const RemoveUsers = () => {
 
       <Header title="REMOVE USERS" subtitle="List of Users" />
       <Box style={{marginTop:"5vh"}}>
-        <FormControl variant="outlined" sx={{ minWidth: 200 }}>
+        <FormControl variant="outlined" sx={{ minWidth: 200, marginRight:'2vw' }}>
           <InputLabel>Select User Role</InputLabel>
           <Select
             value={selectedRole}
@@ -152,9 +164,18 @@ const RemoveUsers = () => {
             <MenuItem value=""><em>All Roles</em></MenuItem>
             <MenuItem value="user">User</MenuItem>
             <MenuItem value="admin">Admin</MenuItem>
-           
+            <MenuItem value="exporter">Exporter</MenuItem>
+            <MenuItem value="fishermen">Fishermen</MenuItem>
+            <MenuItem value="farmer">Farmer</MenuItem>
           </Select>
         </FormControl>
+        <TextField
+          label="Search by name"
+          variant="outlined"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          style={{ minWidth: 200 }}
+        />
       </Box>
       <Box
         mt="40px"
@@ -187,7 +208,7 @@ const RemoveUsers = () => {
         <DataGrid
           loading={isLoading || !data}
           getRowId={(row) => row._id}
-          rows={(selectedRole ? data.filter(user => user.role === selectedRole) : data) || []}
+          rows={filteredData || []}
           columns={columns}
         />
 

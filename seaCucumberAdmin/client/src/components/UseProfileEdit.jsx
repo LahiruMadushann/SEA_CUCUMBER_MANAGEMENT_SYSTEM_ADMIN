@@ -19,14 +19,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Profile from "./Profile";
-import {useTheme} from "@mui/material";
+import { useTheme } from "@mui/material";
 
 const UserProfileEdit = ({ user = {} }) => {
     const navigate = useNavigate();
     const theme = useTheme();
-
-    console.log(user)
-
 
     const { pathname } = useLocation();
     const [userName, setUserName] = useState(user.name);
@@ -36,11 +33,55 @@ const UserProfileEdit = ({ user = {} }) => {
     const [country, setCountry] = useState(user.country);
     const [occupation, setOccupation] = useState(user.occupation);
     const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
+    const [image, setImage] = useState(null);
     const [redirect, setRedirect] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const { setUser } = useContext(UserContext);
 
     const defaultTheme = createTheme();
+    useEffect((e) => {
+         // Set the image state 
+        console.log("Image state updated:", image);
+    }, [image]); 
+    const handleImageChange = async (e) => {
+        setImage(e.target.files[0]);
+
+    if (!image) {
+        return;
+    }
+
+    
+console.log("aluth Image ek",image)
+    try {
+
+        const updatedImage = {
+            image: image,
+        };
+
+        const formData = new FormData();
+        formData.append('image', image);
+        console.log("Form eke data",updatedImage)
+        
+        const response = await axios.put(`http://localhost:5001/general/user/${user._id}`, updatedImage, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+
+        if (response.status === 200) {
+            // Profile update successful
+            alert("Profile Picture Updated Successfully!");
+            // Reload the page
+            // window.location.reload();
+        } else {
+            alert("Profile Picture Update Failed. Please Try Again.");
+        }
+    } catch (error) {
+        console.error("Error updating profile:", error);
+        alert("An error occurred while uploading the profile picture. Please try again later.");
+    }
+    };
+
     async function handleLoginSubmit(e) {
         e.preventDefault();
         try {
@@ -102,29 +143,30 @@ const UserProfileEdit = ({ user = {} }) => {
                             borderRadius: '50px', // Add border radius to the image container
                             overflow: 'hidden', // Hide any overflow content
                         }}
-                    >
+                    >{user.image && (
                         <img
-                                src={require(`../../../server/uploads/${user.image}`)}
-                                alt="Profile"
-                                style={{
-                                    marginLeft: '11vw',
-                                    width: '60%',
-                                    marginTop: '-22vh',
-                                    height: '60%',
-                                    objectFit: 'cover', // Maintain aspect ratio and cover container
-                                    borderRadius: '50px', // Add border radius to the image
-                                }}
-                            />
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                sx={{ mt: 63, mb: 2, ml: -38, mr: 38,  fontWeight: "bold" }}
-                            >
-                                UPLOAD IMAGE
-                            </Button>
-                           
-                     
+                            src={require(`../../../server/uploads/${user.image}`)}
+                            alt="Profile"
+                            style={{
+                                marginLeft: '11vw',
+                                width: '60%',
+                                marginTop: '-22vh',
+                                height: '60%',
+                                objectFit: 'cover', // Maintain aspect ratio and cover container
+                                borderRadius: '50px', // Add border radius to the image
+                            }}
+                        />)}
+                        <Button
+                            type="button"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 63, mb: 2, ml: -38, mr: 38, fontWeight: "bold" }}
+                            onClick={() => document.getElementById('fileInput').click()}
+                        >
+                            UPLOAD IMAGE
+                        </Button>
+
+
 
                     </Box>
                 </Grid>
@@ -152,18 +194,19 @@ const UserProfileEdit = ({ user = {} }) => {
                         <Typography component="h1" variant="h5">
                             User
                         </Typography>
+
                         <Box component="form" noValidate onSubmit={handleLoginSubmit} sx={{ mt: 1 }}>
-                           
 
-                            <TextField
-                                margin="normal"
+                            {user.name && (
+                                <TextField
+                                    margin="normal"
 
-                                name="name"
-                                label="Name"
-                                fullWidth
-                                value={userName}
-                                onChange={(e) => setUserName(e.target.value)}
-                            />
+                                    name="name"
+                                    label="Name"
+                                    fullWidth
+                                    value={userName}
+                                    onChange={(e) => setUserName(e.target.value)}
+                                />)}
                             <TextField
                                 margin="normal"
 
@@ -218,6 +261,7 @@ const UserProfileEdit = ({ user = {} }) => {
                                 value={phoneNumber}
                                 onChange={(e) => setPhoneNumber(e.target.value)}
                             />
+
                             {/* <TextField
                                 margin="normal"
                                 name="Role"
@@ -239,9 +283,17 @@ const UserProfileEdit = ({ user = {} }) => {
 
 
                         </Box>
+
                     </Box>
                 </Grid>
             </Grid>
+            <input
+                id="fileInput"
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                style={{ display: 'none' }}
+            />
         </ThemeProvider>
 
 

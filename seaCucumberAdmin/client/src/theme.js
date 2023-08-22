@@ -15,6 +15,7 @@ export const tokensDark = {
     900: "#141414",
     1000: "#000000", // manually adjusted
   },
+  // #07002b
   primary: {
     // blue
     100: "#d3d4de",
@@ -22,10 +23,10 @@ export const tokensDark = {
     300: "#7a7f9d",
     400: "#4d547d",
     500: "#21295c",
-    600: "#6675ff",
+    600: "#07002b",
     
     // 600: "#191F45", // manually adjusted
-    700: "#3347ff",
+    700: "#1c6bc2",
     // 700: "#141937", //original
     800: "#0d1025",
     900: "#070812",
@@ -38,9 +39,9 @@ export const tokensDark = {
     300: "#ffff", //active tab
     400: "#b3d9ff",//pie chart lite
     500: "#b3d9ff", //pie chart dark
-    600: "#6675ff",//pie chart lite
-    700: "#3347ff", //report tab
-    800: "#3347ff", //Dashboard
+    600: "#07002b",//pie chart lite
+    700: "#1c6bc2", //report tab
+    800: "#1c6bc2", //Dashboard
     900: "#332a14",
   },
 };

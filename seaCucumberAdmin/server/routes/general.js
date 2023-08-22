@@ -1,5 +1,5 @@
 import express from "express";
-import { getUser, getDashboardStats, updateUser, addUser, deleteFarmer, getAllUsers } from "../controllers/general.js";
+import { getUser, getDashboardStats, updateUser, addUser, deleteFarmer, getAllUsers, getFishermens, getFarmers, getExporters } from "../controllers/general.js";
 import fileUpload from "express-fileupload";
 
 const router = express.Router();
@@ -10,5 +10,8 @@ router.put('/user/:id', updateUser);
 router.post('/add', addUser);
 router.delete('/deleteFarmer/:id', deleteFarmer);
 router.get("/allUsers",getAllUsers);
+router.get("/fishermens",getFishermens);
+router.get("/farmers",getFarmers);
+router.get("/exporters",getExporters);
 
 export default router;

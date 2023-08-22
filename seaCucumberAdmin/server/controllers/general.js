@@ -49,7 +49,7 @@ export const addUser = async (req, res) => {
 
     // Create a new user using the User model
     const newUser = new User(userData);
-
+    console.log("Received user data:", newUser);
     // Handle image upload and store the image file
     if (req.files && req.files.image) {
       const image = req.files.image;
@@ -74,7 +74,39 @@ export const addUser = async (req, res) => {
 
 export const getAllUsers = async (req, res) => {
   try {
-    const roles = ["user", "admin"]; // Add the roles you want to retrieve here
+    const roles = ["user", "exporter","admin","fishermen","farmer"]; // Add the roles you want to retrieve here
+    const allUsers = await User.find({ role: { $in: roles } }).select("-password");
+console.log("All the users Roles",allUsers)
+    res.status(200).json(allUsers);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+export const getFishermens = async (req, res) => {
+  try {
+    const roles = ["fishermen"]; 
+    const allUsers = await User.find({ role: { $in: roles } }).select("-password");
+
+    res.status(200).json(allUsers);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+export const getFarmers = async (req, res) => {
+  try {
+    const roles = ["farmer"]; 
+    const allUsers = await User.find({ role: { $in: roles } }).select("-password");
+
+    res.status(200).json(allUsers);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+export const getExporters = async (req, res) => {
+  try {
+    const roles = ["exporter"]; 
     const allUsers = await User.find({ role: { $in: roles } }).select("-password");
 
     res.status(200).json(allUsers);

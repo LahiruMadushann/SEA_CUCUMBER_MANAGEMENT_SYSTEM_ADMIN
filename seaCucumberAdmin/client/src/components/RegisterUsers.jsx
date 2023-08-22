@@ -56,11 +56,15 @@ const RegisterUsers = () => {
         formData.append("image", image);
         
         try {
+           
+            // const response = await axios.post("http://localhost:5001/general/add", formData);
+
             const response = await axios.post("http://localhost:5001/general/add", formData, {
               headers: {
                 "Content-Type": "multipart/form-data",
               },
             });
+      
         
             if (response.status === 201) {
                 console.log("User added successfully:", response.data);

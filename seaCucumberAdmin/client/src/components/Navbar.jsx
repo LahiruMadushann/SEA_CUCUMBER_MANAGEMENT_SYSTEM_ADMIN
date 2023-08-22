@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {Navigate } from "react-router-dom";
+import {Navigate ,useNavigate} from "react-router-dom";
 import {
   LightModeOutlined,
   DarkModeOutlined,
@@ -28,10 +28,15 @@ import {
 const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
+  const navigate2 = useNavigate();
+
 
   const [anchorEl, setAnchorEl] = useState(null);
   const isOpen = Boolean(anchorEl);
-  const handleClick = (event) => setAnchorEl(event.currentTarget);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    navigate2('/');
+  }
   const handleClose = () => setAnchorEl(null);
   const [navigate, setNavigate] = useState(false);
 
@@ -57,7 +62,7 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
           <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
             <MenuIcon />
           </IconButton>
-          <FlexBetween
+          {/* <FlexBetween
             backgroundColor={theme.palette.background.alt}
             borderRadius="9px"
             gap="3rem"
@@ -67,7 +72,7 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
             <IconButton>
               <Search />
             </IconButton>
-          </FlexBetween>
+          </FlexBetween> */}
         </FlexBetween>
 
         {/* RIGHT SIDE */}

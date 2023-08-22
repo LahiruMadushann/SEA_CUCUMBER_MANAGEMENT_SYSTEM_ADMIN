@@ -218,10 +218,7 @@ const navItems = [
     text: "Performance",
     icon: <TrendingUpOutlined />,
   },
-  {
-    text: "Remove Farmers",
-    icon: <PersonRemoveOutlinedIcon />,
-  },
+ 
   {
     text: "Remove Users",
     icon: <PersonRemoveOutlinedIcon />,
@@ -237,7 +234,7 @@ const Sidebar = ({
 }) => {
   const {id} = useParams();
   const userId = useSelector((state) => state.global.userId);
-  console.log("id eka pho",id)
+
   const [detail,setDetail] = useState(null);
   useEffect(()=>{
       if (!id) {
@@ -287,7 +284,7 @@ const Sidebar = ({
   // console.log("Error fetching data", error);
   // console.log("Loading", isLoading);
   
-  const { pathname } = useLocation();
+  const location = useLocation();
   const [userData, setUserData] = useState(null);
   // setUserData(data);
   // console.log("hyyy",userData.name)
@@ -301,6 +298,8 @@ const Sidebar = ({
     } else if (user.role === 'farmer') {
       // show only specific items for farmer users
       return ['Dashboard', 'Aquaculture Farms Section', 'Aquaculture Farms', 'Aquaculture Farmers'].includes(item.text);
+    }else if (user.role === 'exporter') {
+      return ['Dashboard', 'Aquaculture Farms Section', 'Aquaculture Farms', 'Aquaculture Farmers','Fisheries Section','Fishermens','Fish Processors','Section','Exporters','Aquaculture Farms Section Data','Farms Data','Farmers Data','Fisheries Data','Fishermens Data','Fish Processors Data','Sales','Overview','Daily','Monthly','Breakdown'].includes(item.text);
     } else {
       // show only specific items for other users
       return ['Dashboard', 'Products'].includes(item.text);
@@ -313,10 +312,10 @@ const Sidebar = ({
   const theme = useTheme();
 
   useEffect(() => {
-    let newPathname = pathname.replace(/ /g, '');
-    console.log("pathname",newPathname)
-    setActive(newPathname.substring(1));
-  }, [pathname]);
+    // Get the current pathname without leading slashes
+    const currentPath = location.pathname.replace(/\//g, "").toLowerCase();
+    setActive(currentPath);
+  }, [location.pathname]);
 
   // useEffect(() => {
   //   setActive(pathname.substring(1));
@@ -375,7 +374,7 @@ const Sidebar = ({
                 console.log(lcTextNew)
 
                 return (
-                  <ListItem key={text} disablePadding>
+                  <ListItem  key={text} disablePadding>
                     <ListItemButton
                       onClick={() => {
                         navigate(`/${lcTextNew}`);
@@ -405,7 +404,7 @@ const Sidebar = ({
                       </ListItemIcon>
                       <ListItemText primary={text} />
                       {active === lcText && (
-                        <ChevronRightOutlined sx={{ ml: "auto" }} />
+                        <ChevronRightOutlined sx={{ ml: "4vw"}} />
                       )}
                     </ListItemButton>
                   </ListItem>
