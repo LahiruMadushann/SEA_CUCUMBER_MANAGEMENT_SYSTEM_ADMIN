@@ -21,6 +21,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Profile from "./Profile";
 import { useTheme } from "@mui/material";
 import Cookies from 'js-cookie';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
 
 
 const UserProfileEdit = ({ user = {} }) => {
@@ -42,17 +43,33 @@ const UserProfileEdit = ({ user = {} }) => {
 
     const defaultTheme = createTheme();
 
+    async function back(e) {
+        e.preventDefault();
+        const isConfirmed = window.confirm("Are You Want To Cancel The Edit");
+        if (!isConfirmed) {
+            return;
+          } else {
+            try {
+                navigate('/userProfile');
+            } catch (error) {
+              console.error("Error Going Back");
+            }
+          }
+    }
+
+
+
     useEffect(() => {
         const userDataFromCookies = {
-          name: Cookies.get("name") || user.name || "",
-          email: Cookies.get("email") || user.email || "",
-          password: Cookies.get("password") || user.password || "",
-          city: Cookies.get("city") || user.city || "",
-          country: Cookies.get("country") || user.country || "",
-          occupation: Cookies.get("occupation") || user.occupation || "",
-          phoneNumber: Cookies.get("phoneNumber") || user.phoneNumber || "",
+            name: Cookies.get("name") || user.name || "",
+            email: Cookies.get("email") || user.email || "",
+            password: Cookies.get("password") || user.password || "",
+            city: Cookies.get("city") || user.city || "",
+            country: Cookies.get("country") || user.country || "",
+            occupation: Cookies.get("occupation") || user.occupation || "",
+            phoneNumber: Cookies.get("phoneNumber") || user.phoneNumber || "",
         };
-    
+
         setUserName(userDataFromCookies.name);
         setEmail(userDataFromCookies.email);
         setPassword(userDataFromCookies.password);
@@ -60,7 +77,7 @@ const UserProfileEdit = ({ user = {} }) => {
         setCountry(userDataFromCookies.country);
         setOccupation(userDataFromCookies.occupation);
         setPhoneNumber(userDataFromCookies.phoneNumber);
-      }, [user]);
+    }, [user]);
 
 
 
@@ -127,11 +144,11 @@ const UserProfileEdit = ({ user = {} }) => {
 
             Object.keys(updatedUserData).forEach((key) => {
                 Cookies.set(key, updatedUserData[key]);
-              });
+            });
 
             // Update the base URL to match your backend server
             const response = await axios.put(`http://localhost:5001/general/user/${user._id}`, updatedUserData);
-            
+
             if (response.status === 200) {
                 // Profile update successful
                 alert("Profile updated successfully!");
@@ -148,63 +165,80 @@ const UserProfileEdit = ({ user = {} }) => {
     }
 
 
-   
+
 
     // When user logs out or clears form data
-// Object.keys(formData).forEach(key => {
-//     Cookies.remove(key);
-// });
+    // Object.keys(formData).forEach(key => {
+    //     Cookies.remove(key);
+    // });
 
     return (
 
         <ThemeProvider theme={defaultTheme} >
-
-            <Grid container component="main" sx={{ height: '100vh', marginTop: '6vh' }}>
+            <Box
+                sx={{
+                    width: '1642.4580168846821px',
+                    height: '1208.7139954549539px',
+                    zIndex: 0,
+                    top: '-890.66748046875px',
+                    left: '-806px',
+                    borderRadius: '50px',
+                    transform: 'rotate(48.24deg)',
+                    backgroundColor: '#909CFF',
+                    position: 'relative',
+                }}
+            />
+            <Grid container component="main" sx={{ marginTop: '-86vh', position: 'relative', zIndex: 1, left: '-12vw' }}>
                 <CssBaseline />
-                <Grid component={Paper}
-                    item
-                    xs={false}
-                    sm={4}
-                    md={7}
-                    sx={{
-                        display: 'flex', // Display the Box and Grid contents as flex
-                        alignItems: 'center', // Align items vertically
-                        justifyContent: 'center', // Center items horizontally
-                        boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.3)',
-                        backgroundColor: theme.palette.secondary[600]
-                    }}
+                <Grid
+                // component={Paper}
+                // item
+                // xs={false}
+                // sm={4}
+                // md={7}
+                // sx={{
+                //     display: 'flex', // Display the Box and Grid contents as flex
+                //     alignItems: 'center', // Align items vertically
+                //     justifyContent: 'center', // Center items horizontally
+                //     boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.3)',
+                //     backgroundColor: theme.palette.secondary[600]
+                // }}
                 >
                     <Box
-                        sx={{
-                            width: '100%',
-                            height: '100%', // Set height to fill the container
-                            display: 'flex', // Display the image container as flex
-                            justifyContent: 'center', // Center items horizontally
-                            alignItems: 'center', // Center items vertically
-                            borderRadius: '50px', // Add border radius to the image container
-                            overflow: 'hidden', // Hide any overflow content
-                        }}
+                    // sx={{
+                    //     width: '100%',
+                    //     height: '100%', // Set height to fill the container
+                    //     display: 'flex', // Display the image container as flex
+                    //     justifyContent: 'center', // Center items horizontally
+                    //     alignItems: 'center', // Center items vertically
+                    //     borderRadius: '50px', // Add border radius to the image container
+                    //     overflow: 'hidden', // Hide any overflow content
+                    // }}
                     >{user.image && (
                         <img
                             src={require(`../../../server/uploads/${user.image}`)}
                             alt="Profile"
                             style={{
                                 marginLeft: '11vw',
-                                width: '60%',
+                                width: '438px',
                                 marginTop: '-22vh',
-                                height: '60%',
-                                objectFit: 'cover', // Maintain aspect ratio and cover container
-                                borderRadius: '50px', // Add border radius to the image
+                                height: '438px',
+                                objectFit: 'cover',
+                                borderRadius: '100%',
+                                top: '-23vh',
+                                left: '177px',
+                                position: 'relative'
+
                             }}
                         />)}
                         <Button
                             type="button"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 63, mb: 2, ml: -38, mr: 38, fontWeight: "bold" }}
+                            sx={{ mt: -60, marginLeft: '5vw', fontWeight: "bold", height: '60px', width: '60px', border: '2px solid #fff', borderRadius: '100%', backgroundColor: '#909CFF', color: '#3644C5' }}
                             onClick={() => document.getElementById('fileInput').click()}
                         >
-                            UPLOAD IMAGE
+                            <CameraAltIcon sx={{ color: "#fff" }}/>
                         </Button>
 
 
@@ -212,11 +246,11 @@ const UserProfileEdit = ({ user = {} }) => {
                     </Box>
                 </Grid>
 
-                <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+                <Grid item xs={12} sm={8} md={5} elevation={6} square>
                     <Box
                         sx={{
                             my: 8,
-                            mx: 4,
+                            
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
@@ -225,18 +259,14 @@ const UserProfileEdit = ({ user = {} }) => {
                         <Typography
                             component="h1"
                             variant="h5"
-                            sx={{ marginTop: "1rem", marginBottom: "5rem", color: "#1976D2", fontWeight: "bold" }}
+                            sx={{ marginTop: "-32rem", marginBottom: "5rem", color: "#fff", fontWeight: "bold", marginLeft: '-62vw' }}
                         >
-                            User Profile
+                            User Profile Edit
                         </Typography>
-                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                            <Person2OutlinedIcon />
-                        </Avatar>
-                        <Typography component="h1" variant="h5">
-                            User
-                        </Typography>
+                       
+                        
 
-                        <Box component="form" noValidate onSubmit={handleLoginSubmit} sx={{ mt: 1 }}>
+                        <Box component="form" noValidate onSubmit={handleLoginSubmit} sx={{ mt: -2, marginRight: '-25vw',width:'36vw' }}>
 
                             {user.name && (
                                 <TextField
@@ -324,11 +354,19 @@ const UserProfileEdit = ({ user = {} }) => {
                                 type="submit"
                                 fullWidth
                                 variant="contained"
-                                sx={{ mt: 3, mb: 2, fontWeight: "bold" }}
+                                sx={{ mt: 1.5, marginLeft: '-62vw', px: 5, fontWeight: "bold", height: '60px', width: '200px', border: '2px solid #3644C5', borderRadius: '28px', backgroundColor: 'white', color: '#3644C5' }}
                             >
                                 UPDATE DETAIL
                             </Button>
-
+                            <Button
+                                type="button"
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 1.5, marginLeft: '-28vw', px: 5, fontWeight: "bold", height: '60px', width: '200px', border: '2px solid #E71010', borderRadius: '28px', backgroundColor: 'white', color: '#E71010' }}
+                                onClick={back}
+                            >
+                                Cancel
+                            </Button>
 
                         </Box>
 

@@ -4,6 +4,7 @@ import { useGetAllUsersQuery } from "state/api";
 import Header from "components/Header";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
+import Swal from "sweetalert2"; 
 
 const RemoveUsers = () => {
   const theme = useTheme();
@@ -37,10 +38,20 @@ const RemoveUsers = () => {
 
 
   const handleDeleteRow = async (rowId) => {
-    const isConfirmed = window.confirm("Are You Sure You Want To Delete This User?");
+    const { isConfirmed } = await Swal.fire({
+      title: "Are you sure?",
+      text: "Are you sure you want to delete this user?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3644C5",
+      confirmButtonText: "Yes, delete it!",
+    });
+
     if (!isConfirmed) {
       return;
-    } else {
+    }
+
       try {
         // Make an API call to delete the row using the rowId
         console.log("Deleting row with ID:", rowId);
@@ -53,7 +64,7 @@ const RemoveUsers = () => {
       } catch (error) {
         console.error("Error deleting row:", error);
       }
-    }
+    
   };
 
   console.log("data", data);

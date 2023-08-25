@@ -22,7 +22,8 @@ import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
-import {useTheme} from "@mui/material";
+import { useTheme } from "@mui/material";
+
 
 import Profile from "./Profile";
 
@@ -52,145 +53,188 @@ const UserProfile = ({ user = {} }) => {
         navigate('/userProfileEdit');
 
 
+    }
 
-
+    async function back(e) {
+        e.preventDefault();
+        const isConfirmed = window.confirm("Are you want to go to go back to the dashboard");
+        if (!isConfirmed) {
+            return;
+          } else {
+            try {
+                navigate('/dashboard');
+            } catch (error) {
+              console.error("Error Going Back");
+            }
+          }
     }
 
 
     return (
+        
+            <ThemeProvider theme={defaultTheme} >
+                {/* <Paper elevation={3} sx={{ margin: "2rem", padding: "2rem" }}> */}
+                <Box
+                    sx={{
+                        width: '1642.4580168846821px',
+                        height: '1208.7139954549539px',
+                        zIndex: 0,
+                        top: '-890.66748046875px',
+                        left: '-806px',
+                        borderRadius: '50px',
+                        transform: 'rotate(48.24deg)',
+                        backgroundColor: '#909CFF',
+                        position: 'relative',
+                    }}
+                />
 
-        <ThemeProvider theme={defaultTheme} >
-            <Box component="form" noValidate onSubmit={handleLoginSubmit}>
-                <Grid container component="main" sx={{ height: '100vh', marginTop: '6vh' }}>
-                    <CssBaseline />
-                    <Grid
-                        component={Paper}
-                        item
-                        xs={false}
-                        sm={4}
-                        md={7}
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.3)',
-                            backgroundColor: theme.palette.secondary[600]
-                        }}
-                    >
-                        <Box
-                            sx={{
-                                width: '100%',
-                                height: '100%',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                borderRadius: '50px',
-                                overflow: 'hidden',
-                            }}
-                        >
-                          {user.image && ( 
-                            <img
-                                src={require(`../../../server/uploads/${user.image}`)} // Use user's imagePath if available
-                                alt="Profile"
-                                style={{
-                                    marginLeft: '11vw',
-                                    width: '60%',
-                                    marginTop: '-22vh',
-                                    height: '60%',
-                                    objectFit: 'cover',
-                                    borderRadius: '50px',
-                                }}
-                            />
-                            )}
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                sx={{ mt: 63, mb: 2, ml: -38, mr: 38, px: 5, fontWeight: "bold" }}
-                            >
-                                {console.log("Image Name",user.image)}
-                                EDIT USER
-                            </Button>
-                        </Box>
-                    </Grid>
 
-                    <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-                        <Box
-                            sx={{
-                                my: 8,
-                                mx: 4,
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                            }}
+
+
+                <Box component="form" noValidate onSubmit={handleLoginSubmit}>
+                    <Grid container component="main" sx={{ marginTop: '-86vh', position: 'relative', zIndex: 1, left: '-12vw' }}>
+                        <CssBaseline />
+                        <Grid
+                        // component={Paper}
+                        // item
+                        // xs={false}
+                        // sm={4}
+                        // md={7}
+                        // sx={{
+                        //     display: 'flex',
+                        //     alignItems: 'center',
+                        //     justifyContent: 'center',
+                        //     boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.3)',
+                        //     // backgroundColor: theme.palette.secondary[600]
+                        // }}
                         >
-                            <Typography
-                                component="h1"
-                                variant="h5"
-                                sx={{ marginTop: "1rem", marginBottom: "5rem", color: "#1976D2", fontWeight: "bold" }}
+                            <Box
+                            // sx={{
+                            //     width: '100%',
+                            //     height: '100%',
+                            //     display: 'flex',
+                            //     justifyContent: 'center',
+                            //     alignItems: 'center',
+                            //     borderRadius: '50px',
+                            //     overflow: 'hidden',
+                            // }}
                             >
-                                User Profile
-                            </Typography>
-                            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                                <Person2OutlinedIcon />
-                            </Avatar>
-                            <Typography component="h4" variant="h6">
-                                User Details
-                            </Typography>
-                            <Box sx={{ mt: 1 }}>
-                                <Table>
-                                    <TableBody>
-                                        <TableRow>
-                                            <TableCell>
-                                                <Typography sx={{ fontWeight: "bold" }}>User ID </Typography>
-                                            </TableCell>
-                                            <TableCell>{user._id}</TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>
-                                                <Typography sx={{ fontWeight: "bold" }}>User Name </Typography>
-                                            </TableCell>
-                                            <TableCell>{user.name}</TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>
-                                                <Typography sx={{ fontWeight: "bold" }}>Email </Typography>
-                                            </TableCell>
-                                            <TableCell>{user.email}</TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>
-                                                <Typography sx={{ fontWeight: "bold" }}>City </Typography>
-                                            </TableCell>
-                                            <TableCell>{user.city}</TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>
-                                                <Typography sx={{ fontWeight: "bold" }}>Country </Typography>
-                                            </TableCell>
-                                            <TableCell>{user.country}</TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>
-                                                <Typography sx={{ fontWeight: "bold" }}>Occupation </Typography>
-                                            </TableCell>
-                                            <TableCell>{user.occupation}</TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell>
-                                                <Typography sx={{ fontWeight: "bold" }}>Phone Number </Typography>
-                                            </TableCell>
-                                            <TableCell>{user.phoneNumber}</TableCell>
-                                        </TableRow>
-                                    </TableBody>
-                                </Table>
+                                {user.image && (
+                                    <img
+                                        src={require(`../../../server/uploads/${user.image}`)} // Use user's imagePath if available
+                                        alt="Profile"
+                                        style={{
+                                            marginLeft: '11vw',
+                                            width: '438px',
+                                            marginTop: '-22vh',
+                                            height: '438px',
+                                            objectFit: 'cover',
+                                            borderRadius: '100%',
+                                            top: '-23vh',
+                                            left: '177px',
+                                            position: 'relative'
+
+                                        }}
+                                    />
+                                )}
+
                             </Box>
-                        </Box>
-                    </Grid>
-                </Grid>
-            </Box>
-        </ThemeProvider>
+                        </Grid>
 
+                        <Grid item xs={12} sm={8} md={5} elevation={6} square>
+                            <Box
+                                sx={{
+                                    my: -68,
+                                    mx: 4,
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <Typography
+                                    component="h1"
+                                    variant="h5"
+                                    sx={{ marginTop: "5rem", marginBottom: "5rem", color: "#fff", fontWeight: "bold", marginLeft: '-45vw' }}
+                                >
+                                    User Profile
+                                </Typography>
+
+                                <Box sx={{ mt: -2, marginLeft: '30vw' }}>
+                                    <Table>
+                                        <TableBody>
+                                            <TableRow>
+                                                <TableCell>
+                                                    <Typography sx={{ fontWeight: "bold" }}>User ID </Typography>
+                                                </TableCell>
+                                                <TableCell>{user._id}</TableCell>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableCell>
+                                                    <Typography sx={{ fontWeight: "bold" }}>User Name </Typography>
+                                                </TableCell>
+                                                <TableCell>{user.name}</TableCell>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableCell>
+                                                    <Typography sx={{ fontWeight: "bold" }}>Email </Typography>
+                                                </TableCell>
+                                                <TableCell>{user.email}</TableCell>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableCell>
+                                                    <Typography sx={{ fontWeight: "bold" }}>City </Typography>
+                                                </TableCell>
+                                                <TableCell>{user.city}</TableCell>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableCell>
+                                                    <Typography sx={{ fontWeight: "bold" }}>Country </Typography>
+                                                </TableCell>
+                                                <TableCell>{user.country}</TableCell>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableCell>
+                                                    <Typography sx={{ fontWeight: "bold" }}>Occupation </Typography>
+                                                </TableCell>
+                                                <TableCell>{user.occupation}</TableCell>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableCell>
+                                                    <Typography sx={{ fontWeight: "bold" }}>Phone Number </Typography>
+                                                </TableCell>
+                                                <TableCell>{user.phoneNumber}</TableCell>
+                                            </TableRow>
+                                        </TableBody>
+                                    </Table>
+
+                                </Box>
+                            </Box>
+                        </Grid>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: -20, marginLeft: '65vw', px: 5, fontWeight: "bold", height: '60px', width: '165px', border: '2px solid #3644C5', borderRadius: '28px', backgroundColor: 'white', color: '#3644C5' }}
+                        >
+
+                            EDIT USER
+                        </Button>
+                        <Button
+                            type="button"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: -20, marginLeft: '78vw', px: 5, fontWeight: "bold", height: '60px', width: '160px', border: '2px solid #3644C5', borderRadius: '28px', backgroundColor: 'white', color: '#3644C5' }}
+                            onClick={back}
+                        >
+
+                            Back
+                        </Button>
+                    </Grid>
+
+                </Box>
+                {/* </Paper> */}
+            </ThemeProvider>
+        
 
 
         //------------------
