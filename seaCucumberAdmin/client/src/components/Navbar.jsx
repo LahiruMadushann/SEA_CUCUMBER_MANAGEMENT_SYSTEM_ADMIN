@@ -42,8 +42,8 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
       showCancelButton: true,
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3644C5",
-      confirmButtonText: "Yes !",
-      cancelButtonText: "No !"
+      confirmButtonText: "Yes ",
+      cancelButtonText: "No "
     });
 
     if (!isConfirmed) {
@@ -59,9 +59,9 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
     setNavigate(true);
   }
 
-  // if (navigate) {
-  //   return <Navigate to='/userProfile' />
-  // }
+  if (navigate) {
+    return <Navigate to='/userProfile' />
+  }
 
   return (
     <AppBar

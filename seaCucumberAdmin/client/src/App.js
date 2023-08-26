@@ -37,6 +37,7 @@ import RegisterManagementUsers from "scenes/registerManagementUsers";
 import { UserContextProvider } from "UserContext";
 import UserProfileEdit from "scenes/useProfileEdit";
 import RemoveUsers from "scenes/removeUsers";
+import ActivateUsers from "scenes/activateUsers";
 
 
 function App() {
@@ -82,6 +83,7 @@ function App() {
               <Route path="/admin" element={<Admin />} />
               <Route path="/performance" element={<Performance />} />
               <Route path="/removeUsers" element={<RemoveUsers />} />
+              <Route path="/activateUsers" element={<ActivateUsers />} />
             </Route>
           </Routes>
         </ThemeProvider>

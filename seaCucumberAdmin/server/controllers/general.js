@@ -43,6 +43,38 @@ export const updateUser = async (req, res) => {
   }
 };
 
+export const updateUserState = async (req, res) => {
+  try {
+    // Get the user ID and action from the request params
+    const { id } = req.params;
+    const { action } = req.body;
+
+    // Check if the user with the given ID exists
+    const existingUser = await User.findById(id);
+    if (!existingUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Update the user's state based on the action
+    const newState = action === "activate" ? "activate" : "deactivate";
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { state: newState }, // Update the state based on the action
+      { new: true }
+    );
+
+    // Return the updated user
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+
+
+
+
 
 // ...
 

@@ -41,6 +41,7 @@ import FlexBetween from "./FlexBetween";
 import profileImage from "assets/profile.jpeg";
 import { useSelector } from "react-redux";
 import { useGetUserQuery } from "state/api";
+import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
 // import {useParams} from "react-router";
 
 const navItems = [
@@ -222,6 +223,12 @@ const navItems = [
   {
     text: "Remove Users",
     icon: <PersonRemoveOutlinedIcon />,
+  },
+  ,
+ 
+  {
+    text: "Activate Users",
+    icon: <GroupAddOutlinedIcon />,
   },
 ];
 
