@@ -11,7 +11,8 @@ import {
 import FlexBetween from "components/FlexBetween";
 import { useDispatch } from "react-redux";
 import { setMode } from "state";
-import profileImage from "assets/profile.jpeg";
+import Swal from "sweetalert2";
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import {
   AppBar,
   Button,
@@ -33,7 +34,21 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const isOpen = Boolean(anchorEl);
-  const handleClick = (event) => {
+  const handleClick = async (event) => {
+    const { isConfirmed } = await Swal.fire({
+      title: "Are you sure?",
+      text: "Are you sure you want to Log Out !",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3644C5",
+      confirmButtonText: "Yes !",
+      cancelButtonText: "No !"
+    });
+
+    if (!isConfirmed) {
+      return;
+    }
     setAnchorEl(event.currentTarget);
     navigate2('/');
   }
@@ -44,9 +59,9 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
     setNavigate(true);
   }
 
-  if (navigate) {
-    return <Navigate to='/userProfile' />
-  }
+  // if (navigate) {
+  //   return <Navigate to='/userProfile' />
+  // }
 
   return (
     <AppBar
@@ -88,17 +103,16 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
             <SettingsOutlined sx={{ fontSize: "25px" }} />
           </IconButton>
 
-          <FlexBetween>
-            <Button
-              onClick={handleClick}
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                textTransform: "none",
-                gap: "1rem",
-              }}
-            >
+          <FlexBetween
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              textTransform: "none",
+              gap: "1rem",
+            }}
+          >
+            
               {user.image && (
               <Box
                 component="img"
@@ -124,7 +138,20 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
                   {user.occupation}
                 </Typography>
               </Box>
-              <ArrowDropDownOutlined
+              {/* <ArrowDropDownOutlined
+                sx={{ color: theme.palette.secondary[300], fontSize: "25px" }}
+              /> */}
+              <Button
+              onClick={handleClick}
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                textTransform: "none",
+                gap: "1rem",
+              }}
+            >
+              <LogoutOutlinedIcon 
                 sx={{ color: theme.palette.secondary[300], fontSize: "25px" }}
               />
             </Button>
