@@ -23,6 +23,7 @@ import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import { useTheme } from "@mui/material";
+import Swal from "sweetalert2";
 
 
 import Profile from "./Profile";
@@ -57,16 +58,27 @@ const UserProfile = ({ user = {} }) => {
 
     async function back(e) {
         e.preventDefault();
-        const isConfirmed = window.confirm("Are you want to go to go back to the dashboard");
-        if (!isConfirmed) {
+        
+        const { isConfirmed } = await Swal.fire({
+            title: "Are you sure?",
+            text: "Are you want go back to the dashboard?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3644C5",
+            confirmButtonText: "Yes",
+            cancelButtonText: "No"
+          });
+      
+          if (!isConfirmed) {
             return;
-          } else {
+          }
             try {
                 navigate('/dashboard');
             } catch (error) {
               console.error("Error Going Back");
             }
-          }
+          
     }
 
 

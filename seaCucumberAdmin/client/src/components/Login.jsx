@@ -20,6 +20,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useParams } from "react-router";
 import { setUserId } from "../../src/state/index"; 
+import Swal from "sweetalert2";
 
 const Login = ({ user }) => {
 
@@ -40,11 +41,40 @@ const Login = ({ user }) => {
     const { data } = await axios.post('http://localhost:5001/login', { name, password });
     setUser(data);
     dispatch(setUserId(data._id)); // Dispatch the setUserId action
-    alert('Login successful');
+   
+    const { isConfirmed } = await Swal.fire({
+      title: "Successfull",
+      text: "Login successful!",
+      icon: "success",
+      showCancelButton: false,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3644C5",
+      confirmButtonText: "Ok!",
+      
+    });
+
+    if (!isConfirmed) {
+      return;
+    }
     setRedirect(true);
   } catch (error) {
     console.error("Login failed:", error.response.data);
-    alert('Login failed');
+    const { isConfirmed } = await Swal.fire({
+      title: "Failed",
+      text: "Login failed",
+      icon: "error",
+      showCancelButton: false,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3644C5",
+      confirmButtonText: "Ok!",
+      
+    });
+
+    if (!isConfirmed) {
+      return;
+    }
+    
+    
   }
 
 

@@ -22,6 +22,7 @@ import Profile from "./Profile";
 import { useTheme } from "@mui/material";
 import Cookies from 'js-cookie';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import Swal from "sweetalert2";
 
 
 const UserProfileEdit = ({ user = {} }) => {
@@ -45,16 +46,26 @@ const UserProfileEdit = ({ user = {} }) => {
 
     async function back(e) {
         e.preventDefault();
-        const isConfirmed = window.confirm("Are You Want To Cancel The Edit");
-        if (!isConfirmed) {
+        const { isConfirmed } = await Swal.fire({
+            title: "Are you sure?",
+            text: "Are you sure you want to cancel the edit?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3644C5",
+            confirmButtonText: "Yes, cancel it!",
+            cancelButtonText: "No"
+          });
+      
+          if (!isConfirmed) {
             return;
-          } else {
+          }
             try {
                 navigate('/userProfile');
             } catch (error) {
               console.error("Error Going Back");
             }
-          }
+         
     }
 
 
@@ -116,7 +127,23 @@ const UserProfileEdit = ({ user = {} }) => {
             if (response.status === 200) {
                 console.log("Image successfully updated in the database.");
                 // Profile update successful
-                alert("Profile Picture Updated Successfully!");
+                // alert("Profile Picture Updated Successfully!");
+
+                const { isConfirmed } = await Swal.fire({
+                    title: "Successfull",
+                    text: "Profile Picture Updated Successfully!",
+                    icon: "success",
+                    showCancelButton: false,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3644C5",
+                    confirmButtonText: "Ok!",
+                    
+                  });
+              
+                  if (!isConfirmed) {
+                    return;
+                  }
+
                 // Reload the page
                 window.location.reload();
             } else {
@@ -151,14 +178,53 @@ const UserProfileEdit = ({ user = {} }) => {
 
             if (response.status === 200) {
                 // Profile update successful
-                alert("Profile updated successfully!");
-                // You might want to update the user context or any other necessary state
+                const { isConfirmed } = await Swal.fire({
+                    title: "Successfull",
+                    text: "Profile Detail Updated Successfully!",
+                    icon: "success",
+                    showCancelButton: false,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3644C5",
+                    confirmButtonText: "Ok!",
+                    
+                  });
+              
+                  if (!isConfirmed) {
+                    return;
+                  }
+                
             } else {
-                alert("Profile update failed. Please try again.");
+                const { isConfirmed } = await Swal.fire({
+                    title: "Fail",
+                    text: "Profile update failed. Please try again.",
+                    icon: "error",
+                    showCancelButton: false,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3644C5",
+                    confirmButtonText: "Ok!",
+                    
+                  });
+              
+                  if (!isConfirmed) {
+                    return;
+                  }
+                
             }
         } catch (error) {
-            console.error("Error updating profile:", error);
-            alert("An error occurred while updating the profile. Please try again later.");
+            const { isConfirmed } = await Swal.fire({
+                title: "Fail",
+                text: "An error occurred while updating the profile. Please try again later.",
+                icon: "error",
+                showCancelButton: false,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3644C5",
+                confirmButtonText: "Ok!",
+                
+              });
+          
+              if (!isConfirmed) {
+                return;
+              }
         }
 
 
