@@ -14,12 +14,6 @@ import RegisterUsers from "components/RegisterUsers";
 
 const RegisterManagementUsers = () =>{
 
-
-  // console.log("data",data);
-  // const { data, isLoading } = useGetAdminsQuery();
-  // // console.log("data", data);
-  // console.log(user._id)
-
   return (
     
     <Box m="1.5rem 2.5rem">

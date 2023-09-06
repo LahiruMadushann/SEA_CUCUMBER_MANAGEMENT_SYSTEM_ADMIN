@@ -42,6 +42,7 @@ import profileImage from "assets/profile.jpeg";
 import { useSelector } from "react-redux";
 import { useGetUserQuery } from "state/api";
 import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
+import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
 // import {useParams} from "react-router";
 
 const navItems = [
@@ -229,6 +230,10 @@ const navItems = [
   {
     text: "Activate Users",
     icon: <GroupAddOutlinedIcon />,
+  },
+  {
+    text: "Messages",
+    icon: <ContactMailOutlinedIcon />,
   },
 ];
 

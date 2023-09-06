@@ -28,7 +28,7 @@ const Dashboard = () => {
   const theme = useTheme();
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
   const { data, isLoading } = useGetDashboardQuery();
-
+console.log("Dashboard Data", data)
   const handleDownloadReports = () => {
     const element = document.getElementById("reports-container");
 

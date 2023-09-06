@@ -38,6 +38,7 @@ import { UserContextProvider } from "UserContext";
 import UserProfileEdit from "scenes/useProfileEdit";
 import RemoveUsers from "scenes/removeUsers";
 import ActivateUsers from "scenes/activateUsers";
+import KnowledgeCenterData from "scenes/knowledgeCenter";
 
 
 function App() {
@@ -56,6 +57,7 @@ function App() {
               <Route path="userProfile" element={<UserProfile/>} />
               <Route path="userProfileEdit" element={<UserProfileEdit/>} />
               <Route path="registerManagementUsers" element={<RegisterManagementUsers/>} />
+              <Route path="/enterknowledgecenterdata" element={<KnowledgeCenterData />} />
               <Route element={<Layout />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/managementAquacultureUsers" element={<ManagementAquacultureUsers />} />
@@ -84,6 +86,7 @@ function App() {
               <Route path="/performance" element={<Performance />} />
               <Route path="/removeUsers" element={<RemoveUsers />} />
               <Route path="/activateUsers" element={<ActivateUsers />} />
+              
             </Route>
           </Routes>
         </ThemeProvider>
