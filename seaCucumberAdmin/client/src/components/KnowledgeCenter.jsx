@@ -35,7 +35,7 @@ const KnowledgeCenter = () => {
     const [reproduction, setReproduction] = useState("");
     const [lifecycle, setLifecycle] = useState("");
     const [fishingmethods, setFishingmethods] = useState("");
-    const [role, setRole] = useState("");
+    
     const [redirect, setRedirect] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const defaultTheme = createTheme();
@@ -47,7 +47,7 @@ const KnowledgeCenter = () => {
         e.preventDefault();
         const { isConfirmed } = await Swal.fire({
             title: "Are you sure?",
-            text: "Are you sure you want to cancel the edit?",
+            text: "Are you sure you want to cancel?",
             icon: "question",
             showCancelButton: true,
             confirmButtonColor: "#d33",
@@ -60,7 +60,7 @@ const KnowledgeCenter = () => {
             return;
           }
             try {
-                navigate('/userProfile');
+                navigate('/dashboard');
             } catch (error) {
               console.error("Error Going Back");
             }
@@ -79,14 +79,13 @@ const KnowledgeCenter = () => {
         formData.append("reproduction", reproduction);
         formData.append("lifecycle", lifecycle);
         formData.append("fishingmethods",fishingmethods);
-        formData.append("role", role);
         formData.append("image", image);
 
         try {
 
             // const response = await axios.post("http://localhost:5001/general/add", formData);
 
-            const response = await axios.post("http://localhost:5001/general/add", formData, {
+            const response = await axios.post("http://localhost:5001/general/addKnowledge", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
@@ -94,11 +93,35 @@ const KnowledgeCenter = () => {
 
 
             if (response.status === 201) {
-                console.log("Knowledge added successfully:", response.data);
-                const addedUser = response.data;
-                console.log("Knowledge added:", addedUser);
-                alert("Knowledge added successfully!");
-                navigate("/");
+
+            //--------------------------
+            const { isConfirmed } = await Swal.fire({
+                title: "Success?",
+                text: "Knowledge Added Successfuly",
+                icon: "success",
+                showCancelButton: false,
+                confirmButtonColor: "#d33",
+                // cancelButtonColor: "#3644C5",
+                confirmButtonText: "Ok!",
+                // cancelButtonText: "No"
+              });
+          
+              if (!isConfirmed) {
+                return;
+              }
+                try {
+                    navigate("/enterknowledgecenterdata");
+                } catch (error) {
+                  console.error("Error Going Back");
+                }
+            //--------------------------
+
+
+
+
+                
+                // alert("Knowledge added successfully!");
+                navigate("/enterknowledgecenterdata");
             } else {
                 alert("Knowledge add failed. Please try again.");
             }

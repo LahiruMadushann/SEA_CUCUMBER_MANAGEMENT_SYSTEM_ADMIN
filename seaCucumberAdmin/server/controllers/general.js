@@ -7,6 +7,7 @@ import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 import fs from 'fs';
+import Knowledge from "../models/Knowledge.js";
 
 export const getUser = async (req, res) => {
   try {
@@ -149,6 +150,35 @@ export const addUser = async (req, res) => {
 
     // Return the newly added user
     res.status(201).json(savedUser);
+  } catch (error) {
+    console.error("Error adding user:", error.message);
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export const addKnowledge = async (req, res) => {
+  try {
+    // Get the user data from the request body
+    const knowledge = req.body;
+
+    // Create a new user using the User model
+    const newKnowledge = new Knowledge(knowledge);
+    console.log("Received user data:", newKnowledge);
+    // Handle image upload and store the image file
+    if (req.files && req.files.image) {
+      const image = req.files.image;
+      const imagePath = path.join(__dirname, '..', 'knowledgeImages', image.name);
+
+      await image.mv(imagePath);
+      const imageUrl = image.name
+      newKnowledge.image = imageUrl; // Store the image path in the user object
+    }
+
+    // Save the new user to the database
+    const savedKnowledge = await newKnowledge.save();
+
+    // Return the newly added user
+    res.status(201).json(savedKnowledge);
   } catch (error) {
     console.error("Error adding user:", error.message);
     res.status(400).json({ message: error.message });
