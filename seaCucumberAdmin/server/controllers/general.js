@@ -159,8 +159,9 @@ export const addUser = async (req, res) => {
 
 export const addMessage = async(req, res) => {
   try{
-
+    console.log("Received message data:", req.body);
     const { userId, role, message } = req.body;
+    console.log("Received role:", role); // Log the role
 
     const newMessage = new News({
       userId,

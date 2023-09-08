@@ -30,6 +30,7 @@ const Message = () => {
   const [openDialog, setOpenDialog] = useState(false); // State for controlling the message dialog
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [selectUserRole, setSelectUserRole] = useState(null);
+  const [msg, setMsg] = useState("");
 
 
   React.useEffect(() => {
@@ -37,10 +38,27 @@ const Message = () => {
       setData(allData);
     }
   }, [allData]);
+
+  const filteredData = selectedRole
+    ? data.filter(
+      (user) =>
+        user.role === selectedRole &&
+        user.name.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    : data.filter((user) => user.name.toLowerCase().includes(searchQuery.toLowerCase()));
+
+ 
+
+  const roleMessage = () => {
+    setMsg("all");
+    setSelectedRole(selectedRole);
+    handleOpenDialog();
+  }
+
   const handleSelectUser = (userId,role) => {
     setSelectedUserId(userId);
     setSelectUserRole(role);
-
+    setMsg("none");
     handleOpenDialog();
   };
 
@@ -54,22 +72,26 @@ const Message = () => {
   };
 
   const handleMessageSubmit = async () => {
-    // Save the message to the database here
-    // You can make an API call to save the message along with user information
-
-    // Example API call (modify it as needed):
+    // Save the message to the database
 
     try {
-      const response = await axios.post("http://localhost:5001/general/messages", {
-        userId: selectedUserId, // Replace with the actual user ID
-        role: selectUserRole,
-        message: message,
-
-      });
-
-      // Display a success message or handle the response as needed
-      console.log("Message saved:", response.data);
-
+      
+      if (msg === "none") {
+        const response = await axios.post("http://localhost:5001/general/messages", {
+          userId: selectedUserId,
+          role: selectUserRole,
+          message: message,
+        });
+        console.log("Message saved:", response.data);
+      } else if (msg === "all") {
+        const response = await axios.post("http://localhost:5001/general/messages", {
+          userId: "", // Leave userId empty to indicate sending to all users
+          role: selectedRole, // Include the selectedRole for all users
+          message: message,
+        });
+        console.log("Message saved:", response.data);
+      }
+  
       // Close the message dialog
       handleCloseDialog();
     } catch (error) {
@@ -85,15 +107,7 @@ const Message = () => {
     // setEditingUserId(rowId); // To manage the state of the user being edited
   };
 
-  const filteredData = selectedRole
-    ? data.filter(
-      (user) =>
-        user.role === selectedRole &&
-        user.name.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-    : data.filter((user) => user.name.toLowerCase().includes(searchQuery.toLowerCase()));
-
-  console.log("data", data);
+  
 
   const refetchData = async () => {
     try {
@@ -159,6 +173,7 @@ const Message = () => {
             color="secondary"
             sx={{ fontWeight: "bold", backgroundColor: "#198754" }}
             onClick={() => handleSelectUser(params.row._id,params.row.role)}
+            
           >
             Message
           </Button>
@@ -194,6 +209,14 @@ const Message = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
           style={{ minWidth: 200 }}
         />
+        <Button
+            variant="outlined"
+            color="secondary"
+            sx={{ fontWeight: "bold", backgroundColor: "#198754",minWidth: 200, marginLeft: '2vw',height: '3.4vw'  }}
+            onClick={() => roleMessage()}
+          >
+            Send Message
+          </Button>
       </Box>
       <Box
         mt="40px"
