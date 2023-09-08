@@ -8,6 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 import fs from 'fs';
 import Knowledge from "../models/Knowledge.js";
+import News from "../models/News.js";
 
 export const getUser = async (req, res) => {
   try {
@@ -155,6 +156,26 @@ export const addUser = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
+export const addMessage = async(req, res) => {
+  try{
+
+    const { userId, role, message } = req.body;
+
+    const newMessage = new News({
+      userId,
+      role,
+      message
+    });
+
+    const savedMessage = await newMessage.save();
+    res.status(201).json(savedMessage);
+
+  }catch(error){
+    console.error("Error saving message:", error);
+    res.status(400).json({ message: error.message});
+  }
+}
 
 export const addKnowledge = async (req, res) => {
   try {

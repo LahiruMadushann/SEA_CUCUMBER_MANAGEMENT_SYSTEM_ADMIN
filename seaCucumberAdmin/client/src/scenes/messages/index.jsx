@@ -1,17 +1,35 @@
 import React, { useState } from "react";
-import { Box, Button, useTheme, FormControl, InputLabel, Select, MenuItem, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  useTheme,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
 import { useGetAllUsersQuery } from "state/api";
 import Header from "components/Header";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
-import Swal from "sweetalert2"; 
+import Swal from "sweetalert2";
 
-const ActivateUsers = () => {
+const Message = () => {
   const theme = useTheme();
-  const [data, setData] = useState([]); // Initialize data state
+  const [data, setData] = useState([]);
   const { data: allData, isLoading } = useGetAllUsersQuery();
   const [selectedRole, setSelectedRole] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [message, setMessage] = useState(""); // New state for the message content
+  const [openDialog, setOpenDialog] = useState(false); // State for controlling the message dialog
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [selectUserRole, setSelectUserRole] = useState(null);
 
 
   React.useEffect(() => {
@@ -19,6 +37,45 @@ const ActivateUsers = () => {
       setData(allData);
     }
   }, [allData]);
+  const handleSelectUser = (userId,role) => {
+    setSelectedUserId(userId);
+    setSelectUserRole(role);
+
+    handleOpenDialog();
+  };
+
+  const handleOpenDialog = () => {
+
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const handleMessageSubmit = async () => {
+    // Save the message to the database here
+    // You can make an API call to save the message along with user information
+
+    // Example API call (modify it as needed):
+
+    try {
+      const response = await axios.post("http://localhost:5001/general/messages", {
+        userId: selectedUserId, // Replace with the actual user ID
+        role: selectUserRole,
+        message: message,
+
+      });
+
+      // Display a success message or handle the response as needed
+      console.log("Message saved:", response.data);
+
+      // Close the message dialog
+      handleCloseDialog();
+    } catch (error) {
+      console.error("Error saving message:", error);
+    }
+  };
 
   const handleUpdateRow = (rowId) => {
     // You can navigate to the update user page or open a modal here
@@ -30,47 +87,17 @@ const ActivateUsers = () => {
 
   const filteredData = selectedRole
     ? data.filter(
-        (user) =>
-          user.role === selectedRole &&
-          user.name.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+      (user) =>
+        user.role === selectedRole &&
+        user.name.toLowerCase().includes(searchQuery.toLowerCase())
+    )
     : data.filter((user) => user.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
-
-    const handleStatusChange = async (rowId, action) => {
-        const confirmationText = action === "activate" ? "Activate" : "Deactivate";
-        const { isConfirmed } = await Swal.fire({
-          title: `Are you sure?`,
-          text: `Are you sure you want to ${confirmationText} this user?`,
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#d33",
-          cancelButtonColor: "#3644C5",
-          confirmButtonText: `Yes, ${confirmationText.toLowerCase()} it!`,
-        });
-      
-        if (!isConfirmed) {
-          return;
-        }
-      
-        try {
-          // Make an API call to update the user's status
-          console.log(`${confirmationText}ing user with ID:`, rowId);
-          await axios.put(`http://localhost:5001/general/updateStatus/${rowId}`, { action });
-          
-          // Refresh the data after update (optional)
-          refetchData();
-      
-          console.log(`${confirmationText}d user with ID: ${rowId}`);
-        } catch (error) {
-          console.error(`Error ${confirmationText.toLowerCase()}ing user:`, error);
-        }
-      };
-      
   console.log("data", data);
+
   const refetchData = async () => {
     try {
-      const response = await axios.get("http://localhost:5001/general/allUsers");
+      const response = await axios.get("http://localhost:5001/client/customers");
       setData(response.data); // Update the data state with the new data
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -94,89 +121,58 @@ const ActivateUsers = () => {
       headerName: "Email",
       flex: 1,
     },
-    // {
-    //   field: "phoneNumber",
-    //   headerName: "Phone Number",
-    //   flex: 0.5,
-    //   renderCell: (params) => {
-    //     return params.value.replace(/^(\d{3})(\d{3})(\d{4})/, "($1)$2-$3");
-    //   },
-    // },
     {
-      field: "state",
-      headerName: "State",
+      field: "phoneNumber",
+      headerName: "Phone Number",
+      flex: 0.5,
+      renderCell: (params) => {
+        return params.value.replace(/^(\d{3})(\d{3})(\d{4})/, "($1)$2-$3");
+      },
+    },
+    {
+      field: "country",
+      headerName: "Country",
       flex: 0.4,
     },
-    // {
-    //   field: "occupation",
-    //   headerName: "Occupation",
-    //   flex: 1,
-    // },
+    {
+      field: "occupation",
+      headerName: "Occupation",
+      flex: 1,
+    },
     {
       field: "role",
       headerName: "Role",
       flex: 0.5,
     },
-    // {
-    //   field: "update",
-    //   headerName: "Update Farmer",
-    //   flex: 0.5,
-    //   renderCell: (params) => (
-
-    //   <Button
-    //     variant="outlined"
-    //     color="primary"
-    //     onClick={() => handleUpdateRow(params.row._id)}
-    //   >
-    //     Update
-    //   </Button>
 
 
-    //   ),
-    // },
+    ,
     {
-      field: "activate",
-      
-      headerName: "Activate Users",
+      field: "Message",
+      headerName: "Message",
       flex: 0.5,
       renderCell: (params) => (
+        <div>
 
-        <Button
-          variant="outlined"
-          color="secondary"
-          sx={{fontWeight:"bold",backgroundColor:"#198754"}}
-          onClick={() => handleStatusChange(params.row._id, "activate")}
-        >
-          Activate
-        </Button>
-
-      ),
-    },
-    {
-        field: "deactivate",
-        headerName: "Deactivate Users",
-        flex: 0.5,
-        renderCell: (params) => (
-  
           <Button
             variant="outlined"
             color="secondary"
-            sx={{fontWeight:"bold",backgroundColor:"#ff0e0e"}}
-            onClick={() => handleStatusChange(params.row._id, "deactivate")} 
+            sx={{ fontWeight: "bold", backgroundColor: "#198754" }}
+            onClick={() => handleSelectUser(params.row._id,params.row.role)}
           >
-            Deactivate
+            Message
           </Button>
-  
-        ),
-      },
+        </div>
+      ),
+    },
   ];
 
   return (
     <Box m="1.5rem 2.5rem">
 
-      <Header title="ACTIVATE USERS" subtitle="List of Users" />
-      <Box style={{marginTop:"5vh"}}>
-        <FormControl variant="outlined" sx={{ minWidth: 200, marginRight:'2vw' }}>
+      <Header title="SEND MESSAGES" subtitle="List of Users" />
+      <Box style={{ marginTop: "5vh" }}>
+        <FormControl variant="outlined" sx={{ minWidth: 200, marginRight: '2vw' }}>
           <InputLabel>Select User Role</InputLabel>
           <Select
             value={selectedRole}
@@ -235,8 +231,34 @@ const ActivateUsers = () => {
         />
 
       </Box>
+      {/* Message Dialog */}
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <DialogTitle>Send Message</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Enter your message below:</DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Message"
+            fullWidth
+            multiline
+            rows={4}
+            variant="outlined"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleMessageSubmit} color="primary">
+            Send
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
 
-export default ActivateUsers;
+export default Message;

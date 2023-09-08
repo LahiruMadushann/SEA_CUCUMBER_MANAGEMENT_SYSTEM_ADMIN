@@ -39,6 +39,7 @@ import UserProfileEdit from "scenes/useProfileEdit";
 import RemoveUsers from "scenes/removeUsers";
 import ActivateUsers from "scenes/activateUsers";
 import KnowledgeCenterData from "scenes/knowledgeCenter";
+import Message from "scenes/messages";
 
 
 function App() {
@@ -86,6 +87,7 @@ function App() {
               <Route path="/performance" element={<Performance />} />
               <Route path="/removeUsers" element={<RemoveUsers />} />
               <Route path="/activateUsers" element={<ActivateUsers />} />
+              <Route path="/messages" element={<Message />} />
               
             </Route>
           </Routes>
