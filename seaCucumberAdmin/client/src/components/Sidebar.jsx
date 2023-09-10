@@ -326,7 +326,7 @@ const Sidebar = ({
   useEffect(() => {
     // Get the current pathname without leading slashes
     const currentPath = location.pathname.replace(/\//g, "").toLowerCase();
-    setActive(currentPath);
+    // setActive(currentPath);
   }, [location.pathname]);
 
   // useEffect(() => {
@@ -383,23 +383,23 @@ const Sidebar = ({
                 }
                 const lcText = text.toLowerCase();
                 const lcTextNew = lcText.replace(/ /g, '');
-                console.log(lcTextNew)
+                console.log("lcTextNew",lcTextNew)
 
                 return (
                   <ListItem  key={text} disablePadding>
                     <ListItemButton
                       onClick={() => {
                         navigate(`/${lcTextNew}`);
-                        setActive(lcTextNew);
+                        setActive(lcText);
                       }}
                       sx={{
                         backgroundColor:
                           active === lcText
-                            ? theme.palette.secondary[300]
+                            ? theme.palette.secondary[100]
                             : "transparent",
                         color:
                           active === lcText
-                            ? theme.palette.primary[600]
+                            ? theme.palette.secondary[600]
                             : theme.palette.secondary[100],
                       }}
                     >
@@ -408,7 +408,7 @@ const Sidebar = ({
                           ml: "2rem",
                           color:
                             active === lcText
-                              ? theme.palette.primary[600]
+                              ? theme.palette.secondary[600]
                               : theme.palette.secondary[200],
                         }}
                       >
