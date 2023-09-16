@@ -54,31 +54,31 @@ const RegisterUsers = () => {
         formData.append("phoneNumber", phoneNumber);
         formData.append("role", role);
         formData.append("image", image);
-        
+
         try {
-           
+
             // const response = await axios.post("http://localhost:5001/general/add", formData);
 
             const response = await axios.post("http://localhost:5001/general/add", formData, {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
             });
-      
-        
+
+
             if (response.status === 201) {
                 console.log("User added successfully:", response.data);
-              const addedUser = response.data;
-              console.log("New user added:", addedUser);
-              alert("Profile added successfully!");
-              navigate("/");
+                const addedUser = response.data;
+                console.log("New user added:", addedUser);
+                alert("Profile added successfully!");
+                navigate("/");
             } else {
-              alert("Profile add failed. Please try again.");
+                alert("Profile add failed. Please try again.");
             }
-          } catch (error) {
+        } catch (error) {
             console.error("Error adding profile:", error);
             alert("An error occurred while adding the profile. Please try again later.");
-          }
+        }
 
 
 
@@ -120,46 +120,21 @@ const RegisterUsers = () => {
 
             <Grid container component="main" sx={{ height: '100vh', marginTop: '6vh' }}>
                 <CssBaseline />
-                <Grid component={Paper}
-                    item
-                    xs={false}
-                    sm={4}
-                    md={7}
-                    sx={{
-                        display: 'flex', // Display the Box and Grid contents as flex
-                        alignItems: 'center', // Align items vertically
-                        justifyContent: 'center', // Center items horizontally
-                        boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.3)',
-                    }}
-                >
-                    <Box
-                        sx={{
-                            width: '100%',
-                            height: '100%', // Set height to fill the container
-                            display: 'flex', // Display the image container as flex
-                            justifyContent: 'center', // Center items horizontally
-                            alignItems: 'center', // Center items vertically
-                            borderRadius: '50px', // Add border radius to the image container
-                            overflow: 'hidden', // Hide any overflow content
-                        }}
-                    >
-                        {/* <img
-                            src={require('../assets/profile.jpeg')}
-                            alt="Profile"
-                            style={{
-                                width: '40%',
-                                marginTop: '-72vh',
-                                height: '40%',
-                                objectFit: 'cover', // Maintain aspect ratio and cover container
-                                borderRadius: '50px', // Add border radius to the image
-                            }}
-                        /> */}
 
-
-
-
-                    </Box>
-                </Grid>
+                <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage: 'url(https://th.bing.com/th/id/OIG.RIYh0SL1i2ks2DN_00Db?pid=ImgGn)',
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: (t) =>
+              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
 
                 <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                     <Box
